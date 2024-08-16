@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MuslimApp</string>
+    <string name="usernamelabel">username</string>
+    <string name="passwordlabel">Password</string>
 </resources>
