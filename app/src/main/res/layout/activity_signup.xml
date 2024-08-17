@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+
+
+    <EditText
+        android:id="@+id/firstnameinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:hint="First name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/lastnameinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:ems="10"
+        android:hint="Last name"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="@+id/firstnameinput"
+        app:layout_constraintTop_toBottomOf="@+id/firstnameinput" />
+
+    <EditText
+        android:id="@+id/usernameinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="@+id/lastnameinput"
+        app:layout_constraintTop_toBottomOf="@+id/lastnameinput" />
+
+    <EditText
+        android:id="@+id/passwordinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/usernameinput"
+        app:layout_constraintTop_toBottomOf="@+id/usernameinput" />
+
+    <EditText
+        android:id="@+id/emailinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Email address (Optional):"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/passwordinput"
+        app:layout_constraintTop_toBottomOf="@+id/passwordinput" />
+
+    <EditText
+        android:id="@+id/ageinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:hint="Age"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
+        app:layout_constraintStart_toStartOf="@+id/genderRadioGroup" />
+
+
+    <RadioGroup
+        android:id="@+id/genderRadioGroup"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="58dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailinput">
+
+        <RadioButton
+            android:id="@+id/marriedRadioButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/unmarriedRadioButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Female" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/maritalRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/genderRadioGroup"
+        app:layout_constraintStart_toStartOf="@+id/genderRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup">
+
+        <RadioButton
+            android:id="@+id/maleRadioButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Married" />
+
+        <RadioButton
+            android:id="@+id/femaleRadioButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Unmarried" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Sign Up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maritalRadioGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
