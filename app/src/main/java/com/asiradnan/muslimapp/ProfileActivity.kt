@@ -73,6 +73,7 @@ class ProfileActivity : AppCompatActivity() {
 
         name.text = response.optString("first_name") + " " + response.optString("last_name")
         age.text = response.optString("age")
+        Log.d("loggerboi",response.optString("is_male"));
         if (response.optString("is_male")=="true") gender.text = "Male"
         else gender.text = "Female"
         if (response.optString("is_married")=="true") marital.text = "Married"

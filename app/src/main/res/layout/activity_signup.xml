@@ -91,13 +91,13 @@
             android:id="@+id/marriedRadioButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Married" />
 
         <RadioButton
             android:id="@+id/unmarriedRadioButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Female" />
+            android:text="Unmarried" />
     </RadioGroup>
 
     <RadioGroup
@@ -116,13 +116,13 @@
             android:id="@+id/maleRadioButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Married" />
+            android:text="Male" />
 
         <RadioButton
             android:id="@+id/femaleRadioButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Unmarried" />
+            android:text="Female" />
     </RadioGroup>
 
     <Button
