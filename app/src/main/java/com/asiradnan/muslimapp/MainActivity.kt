@@ -13,7 +13,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.net.HttpURLConnection
@@ -21,6 +24,10 @@ import java.net.URL
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: Adapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,9 +38,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
-        val access = sharedpref.getString("access",null)
+        val access = sharedpref.getString("accesstoken",null)
         if (access.isNullOrEmpty()) warn();
         else{
+            recyclerView = findViewById(R.id.recycleview)
+            recyclerView.layoutManager = LinearLayoutManager(this) // or GridLayoutManager
+
             thread{
                 val url: URL = URL("https://muslimapp.vercel.app/duties/mytask")
                 with(url.openConnection() as HttpURLConnection){
@@ -41,8 +51,9 @@ class MainActivity : AppCompatActivity() {
                     setRequestProperty("Authorization","Bearer $access")
                     if (responseCode == 200){
                         inputStream.bufferedReader().use {
-                            val jsonobject: JSONObject = JSONObject(it.readText());
+                            val jsonobject = JSONArray(it.readText());
                             runOnUiThread {
+                                Log.d("loggerboi",jsonobject.toString())
                                 showTasks(jsonobject);
                             }
                         }
@@ -60,6 +71,8 @@ class MainActivity : AppCompatActivity() {
         val datedisplay:TextView = findViewById(R.id.datedisplay)
         datedisplay.text = formatteddate;
 
+
+
         val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -71,6 +84,24 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+    private fun showTasks(jsonarray: JSONArray){
+        val warning:TextView = findViewById(R.id.warnlogin)
+        warning.visibility = View.GONE
+
+        val taskList = ArrayList<Task>()
+
+        for (i in 0 until jsonarray.length()) {
+            val taskJson = jsonarray.getJSONObject(i)
+            Log.d("loggerboi",taskJson.toString())
+            val task = Task(
+                title = taskJson.getString("title")
+                // add other fields as necessary
+            )
+            taskList.add(task)
+        }
+        Log.d("loggerboi",taskList.toString())
+        recyclerView.adapter = Adapter(taskList);
     }
     private fun warn(){
         val warning:TextView = findViewById(R.id.warnlogin)
