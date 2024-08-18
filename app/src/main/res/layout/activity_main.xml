@@ -62,7 +62,7 @@
         android:layout_marginStart="9dp"
         android:layout_marginTop="69dp"
         android:layout_marginEnd="6dp"
-        android:text="Sign Up"
+        android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -70,14 +70,29 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warnlogin"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav" />
+
+    <TextView
+        android:id="@+id/warnlogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="347dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="299dp"
+        android:text="Log In to track your duties."
+        android:textSize="27sp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

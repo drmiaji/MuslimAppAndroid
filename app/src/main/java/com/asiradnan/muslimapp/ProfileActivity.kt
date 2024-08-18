@@ -42,10 +42,8 @@ class ProfileActivity : AppCompatActivity() {
                     requestMethod = "GET"
                     setRequestProperty("Authorization", "Bearer $accessToken")
                     val responseCode = responseCode
-                    Log.d("loggerboi","$responseCode")
                     if (responseCode == 200)
                         inputStream.bufferedReader().use {
-                            Log.d("loggerboi","We are hereeeeeeeeee1")
                             val jsonobject:JSONObject = JSONObject(it.readText());
                             runOnUiThread {
                                 showProfile(jsonobject);
