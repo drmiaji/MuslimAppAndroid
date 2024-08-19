@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 import java.io.IOException
@@ -32,6 +33,18 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.menu_item_profile;
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_item_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.menu_item_profile ->true
+                else -> false
+            }
+        }
 
         val button: Button = findViewById(R.id.button);
         val usernameInput: TextInputEditText = findViewById(R.id.usernameinput)
@@ -82,7 +95,8 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                 }
-            } catch (e: Exception) {
+            }
+            catch (e: Exception) {
                 Log.e("logger", "Error: ${e.message}")
             }
         }

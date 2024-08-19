@@ -2,13 +2,12 @@ package com.asiradnan.muslimapp
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,7 +25,7 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: Adapter
+    val taskList = ArrayList<Task>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,47 +36,17 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
-        val access = sharedpref.getString("accesstoken",null)
-        if (access.isNullOrEmpty()) warn();
-        else{
-            recyclerView = findViewById(R.id.recycleview)
-            recyclerView.layoutManager = LinearLayoutManager(this) // or GridLayoutManager
 
-            thread{
-                val url: URL = URL("https://muslimapp.vercel.app/duties/mytask")
-                with(url.openConnection() as HttpURLConnection){
-                    requestMethod = "GET"
-                    setRequestProperty("Authorization","Bearer $access")
-                    if (responseCode == 200){
-                        inputStream.bufferedReader().use {
-                            val jsonobject = JSONArray(it.readText());
-                            runOnUiThread {
-                                Log.d("loggerboi",jsonobject.toString())
-                                showTasks(jsonobject);
-                            }
-                        }
-                    }
-                    else{
-                        runOnUiThread { warn() }
-                    }
-                }
-            }
-        }
-
-
-        val  now:Calendar = Calendar.getInstance();
-        val formatteddate = SimpleDateFormat("dd MMMM").format(now.time);
+        val  now:Calendar = Calendar.getInstance()
+        val formatteddate = SimpleDateFormat("dd MMMM").format(now.time)
         val datedisplay:TextView = findViewById(R.id.datedisplay)
-        datedisplay.text = formatteddate;
+        datedisplay.text = formatteddate
 
-
-
-        val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView);
+        val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.home -> true
-                R.id.profile -> {
+                R.id.menu_item_home -> true
+                R.id.menu_item_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
@@ -85,26 +54,89 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onStart() {
+        super.onStart()
+        val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
+        val access = sharedpref.getString("accesstoken",null)
+        if (access.isNullOrEmpty()) warn()
+        else{
+            recyclerView = findViewById(R.id.recycleview)
+            recyclerView.layoutManager = LinearLayoutManager(this) // or GridLayoutManager
+
+            thread{
+                val url = URL("https://muslimapp.vercel.app/duties/mytask")
+                with(url.openConnection() as HttpURLConnection){
+                    requestMethod = "GET"
+                    setRequestProperty("Authorization","Bearer $access")
+                    if (responseCode == 200)
+                        inputStream.bufferedReader().use {
+                            val jsonobject = JSONArray(it.readText()) //important
+                            runOnUiThread { showTasks(jsonobject) }
+                        }
+                    else runOnUiThread { warn() }
+                }
+            }
+        }
+    }
+
     private fun showTasks(jsonarray: JSONArray){
         val warning:TextView = findViewById(R.id.warnlogin)
         warning.visibility = View.GONE
-
-        val taskList = ArrayList<Task>()
-
+        taskList.clear()
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
-            Log.d("loggerboi",taskJson.toString())
             val task = Task(
-                title = taskJson.getString("title")
-                // add other fields as necessary
+                id = taskJson.getInt("id"),
+                title = taskJson.getString("title"),
+                detail = taskJson.getString("detail")
             )
+            Log.d("loggerboi",task.toString())
             taskList.add(task)
         }
-        Log.d("loggerboi",taskList.toString())
-        recyclerView.adapter = Adapter(taskList);
+        val adapter = Adapter(taskList)
+        recyclerView.adapter = adapter
+        adapter.onItemClickListener(object : Adapter.onItemClickListener{
+            override fun buttonClick(position: Int) {
+                taskDone(position, adapter)
+            }
+            override fun holderClick(position: Int) {
+                sendToTaskDetail(position)
+            }
+        })
     }
-    private fun warn(){
+    private fun taskDone(position:Int, adapter: Adapter){
+        val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
+        val access = sharedpref.getString("accesstoken",null)
+        thread {
+            val url = URL("https://muslimapp.vercel.app/duties/done/${taskList[position].id}")
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+                setRequestProperty("Authorization","Bearer $access")
+                if (responseCode == 200) {
+                    runOnUiThread {
+                        taskDoneSuccess(position,adapter);
+                    }
+                }
+                else runOnUiThread {
+                    Toast.makeText(this@MainActivity,"Failed",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+    private fun taskDoneSuccess(position: Int, adapter: Adapter){
+        taskList.removeAt(position)
+        adapter.notifyItemRemoved(position)
+        adapter.notifyItemRangeChanged(position, taskList.size)
+    }
+    private fun sendToTaskDetail(position: Int){
+        val task = taskList[position]
+        var intent = Intent(this,TaskDetailActivity::class.java)
+        intent.putExtra("title",task.title)
+        intent.putExtra("detail",task.detail)
+        startActivity(intent)
+    }
+    private fun warn() {
         val warning:TextView = findViewById(R.id.warnlogin)
-        warning.visibility = View.VISIBLE; 
+        warning.visibility = View.VISIBLE
     }
 }

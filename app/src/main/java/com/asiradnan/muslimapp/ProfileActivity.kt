@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -31,6 +33,18 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         show(2);
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.menu_item_profile;
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_item_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.menu_item_profile ->true
+                else -> false
+            }
+        }
         val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences.getString("accesstoken", null)
         if (accessToken.isNullOrEmpty()) showOptions()
@@ -57,6 +71,7 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
     private fun showProfile(response:JSONObject){
         show(0);
