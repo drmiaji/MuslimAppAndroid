@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         else{
             recyclerView = findViewById(R.id.recycleview)
             recyclerView.layoutManager = LinearLayoutManager(this)
+            Toast.makeText(this,"Wait..",Toast.LENGTH_SHORT).show()
             thread{
                 val url = URL("https://muslimapp.vercel.app/duties/mytask")
                 with(url.openConnection() as HttpURLConnection){

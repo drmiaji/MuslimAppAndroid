@@ -69,7 +69,7 @@ class HistoryActivity : AppCompatActivity() {
         else{
             recyclerView = findViewById(R.id.dateRecyclerView)
             recyclerView.layoutManager = LinearLayoutManager(this)
-            Toast.makeText(this@HistoryActivity,"Loading history",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Wait..",Toast.LENGTH_SHORT).show()
             thread{
                 val url = URL("https://muslimapp.vercel.app/duties/myhistory")
                 with (url.openConnection() as HttpURLConnection){

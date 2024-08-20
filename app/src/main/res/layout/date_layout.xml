@@ -17,10 +17,10 @@
         <TextView
             android:id="@+id/history_date"
             android:layout_width="match_parent"
-            android:layout_height="35sp"
+            android:layout_height="40sp"
             android:gravity="center"
             android:text="Date"
             android:textAlignment="center"
-            android:textSize="25sp" />
+            android:textSize="22sp" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
