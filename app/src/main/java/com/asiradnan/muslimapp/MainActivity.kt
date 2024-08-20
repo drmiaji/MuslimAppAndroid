@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
+                R.id.menu_item_history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }
@@ -61,8 +65,7 @@ class MainActivity : AppCompatActivity() {
         if (access.isNullOrEmpty()) warn()
         else{
             recyclerView = findViewById(R.id.recycleview)
-            recyclerView.layoutManager = LinearLayoutManager(this) // or GridLayoutManager
-
+            recyclerView.layoutManager = LinearLayoutManager(this)
             thread{
                 val url = URL("https://muslimapp.vercel.app/duties/mytask")
                 with(url.openConnection() as HttpURLConnection){
@@ -90,7 +93,6 @@ class MainActivity : AppCompatActivity() {
                 title = taskJson.getString("title"),
                 detail = taskJson.getString("detail")
             )
-            Log.d("loggerboi",task.toString())
             taskList.add(task)
         }
         val adapter = Adapter(taskList)

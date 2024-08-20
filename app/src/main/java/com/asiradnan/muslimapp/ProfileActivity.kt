@@ -41,6 +41,10 @@ class ProfileActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
+                R.id.menu_item_history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
+                    true
+                }
                 R.id.menu_item_profile ->true
                 else -> false
             }
