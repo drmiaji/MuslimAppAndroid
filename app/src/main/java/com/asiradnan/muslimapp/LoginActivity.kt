@@ -30,22 +30,6 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_profile
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_item_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-                R.id.menu_item_history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
-                    true
-                }
-                R.id.menu_item_profile ->true
-                else -> false
-            }
-        }
 
         val button: Button = findViewById(R.id.button)
         val usernameInput: TextInputEditText = findViewById(R.id.usernameinput)
@@ -102,6 +86,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun goBackToProfile(){
-        startActivity(Intent(this,ProfileActivity::class.java))
+//        startActivity(Intent(this,ProfileActivity::class.java))
     }
 }

@@ -28,23 +28,6 @@ class SignupActivity : AppCompatActivity() {
             insets
         }
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_profile
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_item_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-                R.id.menu_item_history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
-                    true
-                }
-                R.id.menu_item_profile ->true
-                else -> false
-            }
-        }
-
         val signup: Button = findViewById(R.id.signup)
         signup.setOnClickListener {
             val firstname: EditText = findViewById(R.id.firstnameinput)

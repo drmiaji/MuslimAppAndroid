@@ -23,25 +23,9 @@ class TaskDetailActivity : AppCompatActivity() {
         }
         val title = intent.getStringExtra("title")
         val detail = intent.getStringExtra("detail")
-        val header:TextView = findViewById(R.id.task_detail_header)
-        val detailview:TextView = findViewById(R.id.task_detail_detail)
+        val header: TextView = findViewById(R.id.task_detail_header)
+        val detailview: TextView = findViewById(R.id.task_detail_detail)
         header.text = title
         detailview.text = detail
-
-        val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_item_home -> true
-                R.id.menu_item_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true
-                }
-                R.id.menu_item_history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
     }
 }

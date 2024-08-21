@@ -3,55 +3,29 @@ package com.asiradnan.muslimapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-class ProfileActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_profile)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         show(2)
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_profile
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_item_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-                R.id.menu_item_history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
-                    true
-                }
-                R.id.menu_item_profile ->true
-                else -> false
-            }
-        }
-        val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences.getString("accesstoken", null)
         if (accessToken.isNullOrEmpty()) showOptions()
         else {
-            Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
             thread {
                 val url = URL("https://muslimapp.vercel.app/muslims/loggedin")
                 with(url.openConnection() as HttpURLConnection) {
@@ -61,12 +35,12 @@ class ProfileActivity : AppCompatActivity() {
                     if (responseCode == 200)
                         inputStream.bufferedReader().use {
                             val jsonobject = JSONObject(it.readText())
-                            runOnUiThread {
+                            activity?.runOnUiThread {
                                 showProfile(jsonobject)
                             }
                         }
                     else {
-                        runOnUiThread {
+                        activity?.runOnUiThread {
                             showOptions()
                         }
                     }
@@ -78,46 +52,49 @@ class ProfileActivity : AppCompatActivity() {
     private fun showProfile(response:JSONObject){
         show(0)
 
-        val name:TextView = findViewById(R.id.name)
-        val age:TextView = findViewById(R.id.age)
-        val marital:TextView = findViewById(R.id.marital)
-        val gender:TextView = findViewById(R.id.gender)
-        val username:TextView = findViewById(R.id.username)
-        val email:TextView = findViewById(R.id.email)
-        val logoutbutton:Button = findViewById(R.id.logoutbutton)
+        val name:TextView? = view?.findViewById(R.id.name)
+        val age: TextView? = view?.findViewById(R.id.age)
+        val marital:TextView? = view?.findViewById(R.id.marital)
+        val gender:TextView? = view?.findViewById(R.id.gender)
+        val username:TextView? = view?.findViewById(R.id.username)
+        val email:TextView? = view?.findViewById(R.id.email)
+        val logoutbutton: Button? = view?.findViewById(R.id.logoutbutton)
 
-        name.text = response.optString("first_name") + " " + response.optString("last_name")
-        age.text = response.optString("age")
-        Log.d("loggerboi",response.optString("is_male"))
-        if (response.optString("is_male")=="true") gender.text = "Male"
-        else gender.text = "Female"
-        if (response.optString("is_married")=="true") marital.text = "Married"
-        else marital.text = "Unmarried"
-        username.text = response.optString("username")
-        email.text = response.optString("email")
+        name?.text = response.optString("first_name") + " " + response.optString("last_name")
+        age?.text = response.optString("age")
+        if (response.optString("is_male")=="true") gender?.text = "Male"
+        else gender?.text = "Female"
+        if (response.optString("is_married")=="true") marital?.text = "Married"
+        else marital?.text = "Unmarried"
+        username?.text = response.optString("username")
+        email?.text = response.optString("email")
 
-        logoutbutton.setOnClickListener{
+        logoutbutton?.setOnClickListener{
             logOut()
         }
     }
     private fun showOptions(){
         show(1)
 
-        val loginbutton:Button = findViewById(R.id.loginbutton)
-        val signupbutton:Button = findViewById(R.id.signupbutton)
-        makeVisible(loginbutton)
-        makeVisible(signupbutton)
-
-        loginbutton.setOnClickListener{
-            startActivity(Intent(this,LoginActivity::class.java))
+        val loginbutton:Button? = view?.findViewById(R.id.loginbutton)
+        val signupbutton:Button? = view?.findViewById(R.id.signupbutton)
+        if (loginbutton != null) {
+            makeVisible(loginbutton)
         }
-        signupbutton.setOnClickListener{
-            startActivity(Intent(this,SignupActivity::class.java))
+        if (signupbutton != null) {
+            makeVisible(signupbutton)
+        }
+
+        loginbutton?.setOnClickListener{
+            startActivity(Intent(requireContext(),LoginActivity::class.java))
+        }
+        signupbutton?.setOnClickListener{
+            startActivity(Intent(requireContext(),SignupActivity::class.java))
         }
 
     }
     private fun logOut(){
-        val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         thread {
             val url = URL("https://muslimapp.vercel.app/muslims/logout")
             val jsonObject = JSONObject()
@@ -137,7 +114,7 @@ class ProfileActivity : AppCompatActivity() {
                     flush()
                     close()
                 }
-                runOnUiThread {
+                activity?.runOnUiThread {
                     val editor = sharedPreferences.edit()
                     editor.putString("accesstoken", null)
                     editor.apply()
@@ -146,29 +123,29 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
     }
-    private fun makeInvisible(x:View){
-        x.visibility = View.GONE
+    private fun makeInvisible(x:View?){
+        x?.visibility = View.GONE
     }
-    private fun makeVisible(x:View){
-        x.visibility = View.VISIBLE
+    private fun makeVisible(x:View?){
+        x?.visibility = View.VISIBLE
     }
     private fun show(flag:Int) {
-        val name: TextView = findViewById(R.id.name)
-        val age: TextView = findViewById(R.id.age)
-        val marital: TextView = findViewById(R.id.marital)
-        val gender: TextView = findViewById(R.id.gender)
-        val username: TextView = findViewById(R.id.username)
-        val email: TextView = findViewById(R.id.email)
-        val namelabel: TextView = findViewById(R.id.namelabel)
-        val agelabel: TextView = findViewById(R.id.agelabel)
-        val maritallabel: TextView = findViewById(R.id.maritallabel)
-        val genderlabel: TextView = findViewById(R.id.genderlabel)
-        val usernamelabel: TextView = findViewById(R.id.usernamelabel)
-        val emaillabel: TextView = findViewById(R.id.emaillabel)
-        val profileheader: TextView = findViewById(R.id.profileheader)
-        val logoutbutton: Button = findViewById(R.id.logoutbutton)
-        val loginbutton: Button = findViewById(R.id.loginbutton)
-        val signupbutton: Button = findViewById(R.id.signupbutton)
+        val name: TextView? = view?.findViewById(R.id.name)
+        val age: TextView? = view?.findViewById(R.id.age)
+        val marital: TextView? = view?.findViewById(R.id.marital)
+        val gender: TextView? = view?.findViewById(R.id.gender)
+        val username: TextView? = view?.findViewById(R.id.username)
+        val email: TextView? = view?.findViewById(R.id.email)
+        val namelabel: TextView? = view?.findViewById(R.id.namelabel)
+        val agelabel: TextView? = view?.findViewById(R.id.agelabel)
+        val maritallabel: TextView? = view?.findViewById(R.id.maritallabel)
+        val genderlabel: TextView? = view?.findViewById(R.id.genderlabel)
+        val usernamelabel: TextView? = view?.findViewById(R.id.usernamelabel)
+        val emaillabel: TextView? = view?.findViewById(R.id.emaillabel)
+        val profileheader: TextView? = view?.findViewById(R.id.profileheader)
+        val logoutbutton: Button? = view?.findViewById(R.id.logoutbutton)
+        val loginbutton: Button? = view?.findViewById(R.id.loginbutton)
+        val signupbutton: Button? = view?.findViewById(R.id.signupbutton)
         if (flag == 0) {
             makeInvisible(loginbutton)
             makeInvisible(signupbutton)

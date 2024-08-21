@@ -54,23 +54,7 @@ class HistoryDetailActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.historyRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_item_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
 
-                R.id.menu_item_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true
-                }
-
-                R.id.menu_item_history -> true
-                else -> false
-            }
-        }
     }
     private fun makeMap(jsonarray: JSONArray) {
         for (i in 0 until jsonarray.length()) {
