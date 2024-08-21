@@ -117,11 +117,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 activity?.runOnUiThread {
                     val editor = sharedPreferences.edit()
                     editor.putString("accesstoken", null)
+                    editor.putString("loggedin", null)
                     editor.apply()
-                    showOptions()
+                    goBack()
                 }
             }
         }
+    }
+    private fun goBack(){
+        startActivity(Intent(requireContext(),LoginActivity::class.java))
     }
     private fun makeInvisible(x:View?){
         x?.visibility = View.GONE

@@ -36,7 +36,7 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         Log.d("loggerboi","inside on start")
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
-        if (access.isNullOrEmpty()) warn()
+        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
         else{
             recyclerView = view?.findViewById(R.id.recycleview) ?: return
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -53,14 +53,14 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                                 showTasks(jsonobject) }
                         }
                     else
-                        activity?.runOnUiThread { warn() }
+                        activity?.runOnUiThread {
+                             Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
+                        }
                 }
             }
         }
     }
     private fun showTasks(jsonarray: JSONArray){
-        val warning:TextView? = view?.findViewById(R.id.warnlogin)
-        warning?.visibility = View.GONE
         taskList.clear()
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
@@ -109,13 +109,14 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
     }
     private fun sendToTaskDetail(position: Int){
         val task = taskList[position]
-        val intent = Intent(requireContext(),TaskDetailActivity::class.java)
-        intent.putExtra("title",task.title)
-        intent.putExtra("detail",task.detail)
-        startActivity(intent)
-    }
-    private fun warn() {
-        val warning: TextView? = view?.findViewById(R.id.warnlogin)
-        warning?.visibility = View.VISIBLE
+        val bundle = Bundle()
+        bundle.putString("title",task.title)
+        bundle.putString("detail",task.detail)
+        val fragment = TaskDetailFragment()
+        fragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction().apply(){
+            replace(R.id.mainframelayout,fragment)
+            commit()
+        }
     }
 }

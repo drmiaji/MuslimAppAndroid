@@ -20,7 +20,6 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
 
         val btn: Button = view.findViewById(R.id.button4)
         btn.setOnClickListener {
-            Log.d("loggerboi","button clicked")
             val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
             val access = sharedpref.getString("accesstoken", null)
             if (!access.isNullOrEmpty()) {

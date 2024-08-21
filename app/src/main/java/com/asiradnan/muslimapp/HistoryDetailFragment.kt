@@ -1,38 +1,25 @@
 package com.asiradnan.muslimapp
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-class HistoryDetailActivity : AppCompatActivity() {
-
+class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     private lateinit var recyclerView: RecyclerView
     val taskList = ArrayList<HistoryTask>()
     var mp = mutableMapOf<Int,String>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_history_detail)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-
-        val arr = intent.getStringExtra("list")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val arr = arguments?.getString("list")
         thread{
             val url = URL("https://muslimapp.vercel.app/duties/tasks")
             with (url.openConnection() as HttpURLConnection){
@@ -40,10 +27,9 @@ class HistoryDetailActivity : AppCompatActivity() {
                 if (responseCode == 200) {
                     inputStream.bufferedReader().use {
                         val jsonarray = JSONArray(it.readText()) //important
-                        runOnUiThread {
+                        activity?.runOnUiThread {
                             if (arr != null) {
                                 makeMap(jsonarray)
-                                Log.d("loggerboi", "ready for cycle")
                                 showHistoryTask(arr)
                             }
                         }
@@ -51,12 +37,10 @@ class HistoryDetailActivity : AppCompatActivity() {
                 }
             }
         }
-        recyclerView = findViewById(R.id.historyRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-
+        recyclerView = view?.findViewById(R.id.historyRecyclerView) ?: return
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
-    private fun makeMap(jsonarray: JSONArray) {
+     private fun makeMap(jsonarray: JSONArray) {
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
             mp[taskJson.getInt("id")] = taskJson.getString("title")
@@ -64,7 +48,6 @@ class HistoryDetailActivity : AppCompatActivity() {
     }
     private fun showHistoryTask(arr: String) {
         val jsonarray = JSONArray(arr)
-        Log.d("loggerboi", "inside show func")
         taskList.clear()
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
@@ -80,9 +63,7 @@ class HistoryDetailActivity : AppCompatActivity() {
                 taskList.add(task)
             }
         }
-        Log.d("loggerboi", taskList.toString())
         val adapter = HistoryAdapter(taskList)
-        Log.d("loggerboi", "Adapter ready, just recycling now")
         recyclerView.adapter = adapter
     }
 }

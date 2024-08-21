@@ -11,7 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 import java.io.OutputStreamWriter
@@ -68,10 +67,11 @@ class LoginActivity : AppCompatActivity() {
                                 val refreshToken = responseJson.optString("refresh")
                                 editor.putString("accesstoken", accessToken)
                                 editor.putString("refreshtoken", refreshToken)
+                                editor.putString("loggedin", true.toString())
                                 editor.apply()
                             }
                             runOnUiThread {
-                                goBackToProfile()
+                                goInside()
                             }
                         }
                         else runOnUiThread {
@@ -85,7 +85,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    private fun goBackToProfile(){
-//        startActivity(Intent(this,ProfileActivity::class.java))
+    private fun goInside(){
+        startActivity(Intent(this,MainActivity::class.java))
     }
 }

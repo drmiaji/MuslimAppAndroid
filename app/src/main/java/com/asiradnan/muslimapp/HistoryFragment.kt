@@ -2,6 +2,8 @@ package com.asiradnan.muslimapp
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -26,7 +28,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         super.onStart()
         val sharedPreference = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedPreference.getString("accesstoken", null)
-        if (access.isNullOrEmpty()) warn()
+        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
         else {
             recyclerView = view?.findViewById(R.id.dateRecyclerView) ?: return
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -46,7 +48,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                     } else {
                         activity?.runOnUiThread {
                             Toast.makeText(requireContext(), "Could not load", Toast.LENGTH_SHORT).show()
-                            warn()
                         }
                     }
                 }
@@ -54,9 +55,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         }
     }
     private fun showDates(){
-        val warning:TextView? = view?.findViewById(R.id.warnloginhistory)
-        warning?.visibility = View.GONE
-
         datelist.clear()
         val keys = jsonobject.keys()
         dateStrings = mutableListOf()
@@ -67,6 +65,8 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
             val date: Date = formatter.parse(key)
             datelist.add(date)
         }
+        dateStrings.reverse()
+        datelist.reverse()
         val adapter = DateAdapter(datelist)
         recyclerView.adapter = adapter
         adapter.onItemClickListener(object : DateAdapter.onItemClickListener{
@@ -76,14 +76,14 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         })
     }
     private fun sendToHistoryDetail(position: Int){
-        val intent = Intent(requireContext(), HistoryDetailActivity::class.java)
+        val bundle = Bundle()
         val arr = jsonobject.getJSONArray(dateStrings[position])
-        intent.putExtra("list",arr.toString())
-        startActivity(intent)
-    }
-
-    private fun warn() {
-        val warning: TextView? = view?.findViewById(R.id.warnloginhistory)
-        warning?.visibility = View.VISIBLE
+        bundle.putString("list", arr.toString())
+        val fragment = HistoryDetailFragment()
+        fragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction().apply() {
+            replace(R.id.mainframelayout, fragment) // Replace `fragment_container` with your container ID
+            commit()
+        }
     }
 }
