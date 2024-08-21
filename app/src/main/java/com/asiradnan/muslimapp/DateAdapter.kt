@@ -17,14 +17,14 @@ class DateAdapter(private var datelist:ArrayList<Date>):RecyclerView.Adapter<Dat
     }
 
     fun onItemClickListener(listener: onItemClickListener){
-        mlistener = listener;
+        mlistener = listener
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.date_layout,parent,false)
         return ViewHolder(itemView,mlistener)
     }
 
-    override fun onBindViewHolder(holder: DateAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val curr = datelist[position]
         val formatter = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
         holder.date.text = formatter.format(curr)

@@ -3,7 +3,6 @@ package com.asiradnan.muslimapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -14,14 +13,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
-import java.text.FieldPosition
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import kotlin.concurrent.thread
 
@@ -29,8 +24,8 @@ class HistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     val datelist = ArrayList<Date>()
-    private lateinit var jsonobject:JSONObject;
-    private lateinit var dateStrings:MutableList<String>;
+    private lateinit var jsonobject:JSONObject
+    private lateinit var dateStrings:MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +39,7 @@ class HistoryActivity : AppCompatActivity() {
 
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_history;
+        bottomNavigationView.selectedItemId = R.id.menu_item_history
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_item_home -> {

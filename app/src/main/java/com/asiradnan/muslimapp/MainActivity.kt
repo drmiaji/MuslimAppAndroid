@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.net.HttpURLConnection
 import java.net.URL
@@ -117,11 +115,11 @@ class MainActivity : AppCompatActivity() {
                 setRequestProperty("Authorization","Bearer $access")
                 if (responseCode == 200) {
                     runOnUiThread {
-                        taskDoneSuccess(position,adapter);
+                        taskDoneSuccess(position,adapter)
                     }
                 }
                 else runOnUiThread {
-                    Toast.makeText(this@MainActivity,"Failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this@MainActivity,"Failed",Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -133,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun sendToTaskDetail(position: Int){
         val task = taskList[position]
-        var intent = Intent(this,TaskDetailActivity::class.java)
+        val intent = Intent(this,TaskDetailActivity::class.java)
         intent.putExtra("title",task.title)
         intent.putExtra("detail",task.detail)
         startActivity(intent)

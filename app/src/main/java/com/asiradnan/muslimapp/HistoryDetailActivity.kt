@@ -39,7 +39,7 @@ class HistoryDetailActivity : AppCompatActivity() {
                 requestMethod = "GET"
                 if (responseCode == 200) {
                     inputStream.bufferedReader().use {
-                        var jsonarray = JSONArray(it.readText()) //important
+                        val jsonarray = JSONArray(it.readText()) //important
                         runOnUiThread {
                             if (arr != null) {
                                 makeMap(jsonarray)

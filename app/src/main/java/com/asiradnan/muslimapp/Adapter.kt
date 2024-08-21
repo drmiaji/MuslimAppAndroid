@@ -16,7 +16,7 @@ class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapte
     }
 
     fun onItemClickListener(listener: onItemClickListener){
-        mlistener = listener;
+        mlistener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.task_layout, parent, false)

@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,7 +29,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_profile;
+        bottomNavigationView.selectedItemId = R.id.menu_item_profile
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_item_home -> {
@@ -57,24 +56,24 @@ class SignupActivity : AppCompatActivity() {
             val is_male: RadioButton = findViewById(R.id.maleRadioButton)
             val is_married: RadioButton = findViewById(R.id.marriedRadioButton)
 
-            var data: JSONObject = JSONObject();
+            val data = JSONObject()
             data.put("first_name", firstname.text)
             data.put("last_name", lastname.text)
             data.put("username", username.text)
             data.put("password", password.text)
             data.put("email", email.text)
             data.put("age", age.text)
-            if (is_male.isChecked) data.put("is_male", "True");
+            if (is_male.isChecked) data.put("is_male", "True")
             else data.put("is_male", "False")
             if (is_married.isChecked) data.put("is_married", "True")
             else data.put("is_married", "False")
 
-            var postData = data.toString();
-            Log.d("loggerboi", postData);
+            val postData = data.toString()
+            Log.d("loggerboi", postData)
             thread {
                 val url = URL("https://muslimapp.vercel.app/muslims/register")
-                var postData = data.toString();
-                Log.d("loggerboi", postData);
+                val postData = data.toString()
+                Log.d("loggerboi", postData)
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "POST"
                     setRequestProperty(
@@ -91,20 +90,15 @@ class SignupActivity : AppCompatActivity() {
                     val responseCode = responseCode
                     Log.d("loggerboi", responseCode.toString())
                     if (responseCode == 200) {
-//                        inputStream.bufferedReader().use {
-//                            val response = it.readText()
-//                            Log.d("loggerboi", response)
-//                        }
-                        runOnUiThread(){
-                            sendToLogIn();
+                        runOnUiThread {
+                            sendToLogIn()
                         }
-
                     }
                 }
             }
         }
     }
     private fun sendToLogIn(){
-        startActivity(Intent(this,LoginActivity::class.java));
+        startActivity(Intent(this,LoginActivity::class.java))
     }
 }

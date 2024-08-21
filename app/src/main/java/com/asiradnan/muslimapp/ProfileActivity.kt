@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -15,7 +14,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
-import java.io.IOException
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
@@ -32,9 +30,9 @@ class ProfileActivity : AppCompatActivity() {
             insets
         }
 
-        show(2);
+        show(2)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_profile;
+        bottomNavigationView.selectedItemId = R.id.menu_item_profile
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_item_home -> {
@@ -62,14 +60,14 @@ class ProfileActivity : AppCompatActivity() {
                     val responseCode = responseCode
                     if (responseCode == 200)
                         inputStream.bufferedReader().use {
-                            val jsonobject:JSONObject = JSONObject(it.readText());
+                            val jsonobject = JSONObject(it.readText())
                             runOnUiThread {
-                                showProfile(jsonobject);
+                                showProfile(jsonobject)
                             }
                         }
                     else {
                         runOnUiThread {
-                            showOptions();
+                            showOptions()
                         }
                     }
                 }
@@ -78,19 +76,19 @@ class ProfileActivity : AppCompatActivity() {
 
     }
     private fun showProfile(response:JSONObject){
-        show(0);
+        show(0)
 
-        val name:TextView = findViewById(R.id.name);
-        val age:TextView = findViewById(R.id.age);
-        val marital:TextView = findViewById(R.id.marital);
-        val gender:TextView = findViewById(R.id.gender);
-        val username:TextView = findViewById(R.id.username);
+        val name:TextView = findViewById(R.id.name)
+        val age:TextView = findViewById(R.id.age)
+        val marital:TextView = findViewById(R.id.marital)
+        val gender:TextView = findViewById(R.id.gender)
+        val username:TextView = findViewById(R.id.username)
         val email:TextView = findViewById(R.id.email)
         val logoutbutton:Button = findViewById(R.id.logoutbutton)
 
         name.text = response.optString("first_name") + " " + response.optString("last_name")
         age.text = response.optString("age")
-        Log.d("loggerboi",response.optString("is_male"));
+        Log.d("loggerboi",response.optString("is_male"))
         if (response.optString("is_male")=="true") gender.text = "Male"
         else gender.text = "Female"
         if (response.optString("is_married")=="true") marital.text = "Married"
@@ -99,16 +97,16 @@ class ProfileActivity : AppCompatActivity() {
         email.text = response.optString("email")
 
         logoutbutton.setOnClickListener{
-            logOut();
+            logOut()
         }
     }
     private fun showOptions(){
-        show(1);
+        show(1)
 
-        val loginbutton:Button = findViewById(R.id.loginbutton);
+        val loginbutton:Button = findViewById(R.id.loginbutton)
         val signupbutton:Button = findViewById(R.id.signupbutton)
-        makeVisible(loginbutton);
-        makeVisible(signupbutton);
+        makeVisible(loginbutton)
+        makeVisible(signupbutton)
 
         loginbutton.setOnClickListener{
             startActivity(Intent(this,LoginActivity::class.java))
@@ -125,8 +123,7 @@ class ProfileActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             val refreshToken = sharedPreferences.getString("refreshtoken", null)
             jsonObject.put("refresh", "$refreshToken")
-            var postData = jsonObject.toString();
-            Log.d("logger", postData);
+            val postData = jsonObject.toString()
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "POST"
                 setRequestProperty(
@@ -144,87 +141,87 @@ class ProfileActivity : AppCompatActivity() {
                     val editor = sharedPreferences.edit()
                     editor.putString("accesstoken", null)
                     editor.apply()
-                    showOptions();
+                    showOptions()
                 }
             }
         }
     }
     private fun makeInvisible(x:View){
-        x.visibility = View.GONE;
+        x.visibility = View.GONE
     }
     private fun makeVisible(x:View){
-        x.visibility = View.VISIBLE;
+        x.visibility = View.VISIBLE
     }
     private fun show(flag:Int) {
-        val name: TextView = findViewById(R.id.name);
-        val age: TextView = findViewById(R.id.age);
-        val marital: TextView = findViewById(R.id.marital);
-        val gender: TextView = findViewById(R.id.gender);
-        val username: TextView = findViewById(R.id.username);
+        val name: TextView = findViewById(R.id.name)
+        val age: TextView = findViewById(R.id.age)
+        val marital: TextView = findViewById(R.id.marital)
+        val gender: TextView = findViewById(R.id.gender)
+        val username: TextView = findViewById(R.id.username)
         val email: TextView = findViewById(R.id.email)
-        val namelabel: TextView = findViewById(R.id.namelabel);
-        val agelabel: TextView = findViewById(R.id.agelabel);
-        val maritallabel: TextView = findViewById(R.id.maritallabel);
-        val genderlabel: TextView = findViewById(R.id.genderlabel);
-        val usernamelabel: TextView = findViewById(R.id.usernamelabel);
+        val namelabel: TextView = findViewById(R.id.namelabel)
+        val agelabel: TextView = findViewById(R.id.agelabel)
+        val maritallabel: TextView = findViewById(R.id.maritallabel)
+        val genderlabel: TextView = findViewById(R.id.genderlabel)
+        val usernamelabel: TextView = findViewById(R.id.usernamelabel)
         val emaillabel: TextView = findViewById(R.id.emaillabel)
         val profileheader: TextView = findViewById(R.id.profileheader)
         val logoutbutton: Button = findViewById(R.id.logoutbutton)
-        val loginbutton: Button = findViewById(R.id.loginbutton);
+        val loginbutton: Button = findViewById(R.id.loginbutton)
         val signupbutton: Button = findViewById(R.id.signupbutton)
         if (flag == 0) {
-            makeInvisible(loginbutton);
-            makeInvisible(signupbutton);
+            makeInvisible(loginbutton)
+            makeInvisible(signupbutton)
 
-            makeVisible(name);
-            makeVisible(age);
-            makeVisible(marital);
-            makeVisible(gender);
-            makeVisible(username);
-            makeVisible(email);
-            makeVisible(namelabel);
-            makeVisible(agelabel);
-            makeVisible(maritallabel);
-            makeVisible(genderlabel);
-            makeVisible(usernamelabel);
-            makeVisible(emaillabel);
-            makeVisible(logoutbutton);
-            makeVisible(profileheader);
+            makeVisible(name)
+            makeVisible(age)
+            makeVisible(marital)
+            makeVisible(gender)
+            makeVisible(username)
+            makeVisible(email)
+            makeVisible(namelabel)
+            makeVisible(agelabel)
+            makeVisible(maritallabel)
+            makeVisible(genderlabel)
+            makeVisible(usernamelabel)
+            makeVisible(emaillabel)
+            makeVisible(logoutbutton)
+            makeVisible(profileheader)
         } else if (flag == 1) {
-            makeInvisible(name);
-            makeInvisible(age);
-            makeInvisible(marital);
-            makeInvisible(gender);
-            makeInvisible(username);
-            makeInvisible(email);
-            makeInvisible(namelabel);
-            makeInvisible(agelabel);
-            makeInvisible(maritallabel);
-            makeInvisible(genderlabel);
-            makeInvisible(usernamelabel);
-            makeInvisible(emaillabel);
-            makeInvisible(logoutbutton);
-            makeInvisible(profileheader);
+            makeInvisible(name)
+            makeInvisible(age)
+            makeInvisible(marital)
+            makeInvisible(gender)
+            makeInvisible(username)
+            makeInvisible(email)
+            makeInvisible(namelabel)
+            makeInvisible(agelabel)
+            makeInvisible(maritallabel)
+            makeInvisible(genderlabel)
+            makeInvisible(usernamelabel)
+            makeInvisible(emaillabel)
+            makeInvisible(logoutbutton)
+            makeInvisible(profileheader)
 
-            makeVisible(loginbutton);
-            makeVisible(signupbutton);
+            makeVisible(loginbutton)
+            makeVisible(signupbutton)
         } else {
-            makeInvisible(name);
-            makeInvisible(age);
-            makeInvisible(marital);
-            makeInvisible(gender);
-            makeInvisible(username);
-            makeInvisible(email);
-            makeInvisible(namelabel);
-            makeInvisible(agelabel);
-            makeInvisible(maritallabel);
-            makeInvisible(genderlabel);
-            makeInvisible(usernamelabel);
-            makeInvisible(emaillabel);
-            makeInvisible(logoutbutton);
-            makeInvisible(profileheader);
-            makeInvisible(loginbutton);
-            makeInvisible(signupbutton);
+            makeInvisible(name)
+            makeInvisible(age)
+            makeInvisible(marital)
+            makeInvisible(gender)
+            makeInvisible(username)
+            makeInvisible(email)
+            makeInvisible(namelabel)
+            makeInvisible(agelabel)
+            makeInvisible(maritallabel)
+            makeInvisible(genderlabel)
+            makeInvisible(usernamelabel)
+            makeInvisible(emaillabel)
+            makeInvisible(logoutbutton)
+            makeInvisible(profileheader)
+            makeInvisible(loginbutton)
+            makeInvisible(signupbutton)
         }
     }
 }

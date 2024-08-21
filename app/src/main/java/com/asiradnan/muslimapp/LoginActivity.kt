@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -15,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
-import java.io.IOException
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
@@ -33,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.menu_item_profile;
+        bottomNavigationView.selectedItemId = R.id.menu_item_profile
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_item_home -> {
@@ -49,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        val button: Button = findViewById(R.id.button);
+        val button: Button = findViewById(R.id.button)
         val usernameInput: TextInputEditText = findViewById(R.id.usernameinput)
         val passwordInput: EditText = findViewById(R.id.passwordinput)
         button.setOnClickListener {
@@ -61,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                     val jsonObject = JSONObject()
                     jsonObject.put("username", username)
                     jsonObject.put("password", password)
-                    val postData = jsonObject.toString();
+                    val postData = jsonObject.toString()
                     with(url.openConnection() as HttpURLConnection) {
                         requestMethod = "POST"
                         setRequestProperty(
@@ -89,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
                                 editor.apply()
                             }
                             runOnUiThread {
-                                goBackToProfile();
+                                goBackToProfile()
                             }
                         }
                         else runOnUiThread {
@@ -103,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    fun goBackToProfile(){
-        startActivity(Intent(this,ProfileActivity::class.java));
+    private fun goBackToProfile(){
+        startActivity(Intent(this,ProfileActivity::class.java))
     }
 }
