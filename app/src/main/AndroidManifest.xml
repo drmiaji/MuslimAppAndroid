@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MuslimApp"
         tools:targetApi="31">
         <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryDetailActivity"
             android:exported="false" />
         <activity

@@ -5,12 +5,14 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,10 +37,38 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+
         val  now:Calendar = Calendar.getInstance()
         val formatteddate = SimpleDateFormat("dd MMMM").format(now.time)
         val datedisplay:TextView = findViewById(R.id.datedisplay)
         datedisplay.text = formatteddate
+
+
+        val dd= DailyDutiesFragment()
+        val fb= FeedBackFragment()
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flfragment, dd)
+            commit()
+        }
+        val btn1:Button = findViewById(R.id.button2)
+        val btn2:Button = findViewById(R.id.button3)
+        btn1.setOnClickListener{
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.flfragment,dd)
+                commit()
+            }
+        }
+        btn2.setOnClickListener{
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.flfragment,fb)
+                commit()
+            }
+        }
+        val btn3:Button = findViewById(R.id.button5)
+        btn3.setOnClickListener{
+            startActivity(Intent(this, FeedbackActivity::class.java))
+        }
 
         val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnItemSelectedListener { item ->
