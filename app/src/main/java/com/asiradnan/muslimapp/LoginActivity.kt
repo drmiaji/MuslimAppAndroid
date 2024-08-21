@@ -33,6 +33,10 @@ class LoginActivity : AppCompatActivity() {
         val button: Button = findViewById(R.id.button)
         val usernameInput: TextInputEditText = findViewById(R.id.usernameinput)
         val passwordInput: EditText = findViewById(R.id.passwordinput)
+        val signupbutton:Button = findViewById(R.id.signupbutton)
+        signupbutton.setOnClickListener{
+            startActivity(Intent(this,SignupActivity::class.java))
+        }
         button.setOnClickListener {
             try {
                 val username = usernameInput.text?.toString() ?: ""

@@ -18,12 +18,12 @@ import kotlin.concurrent.thread
 
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         show(2)
         val sharedPreferences = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences.getString("accesstoken", null)
-        if (accessToken.isNullOrEmpty()) showOptions()
+        if (accessToken.isNullOrEmpty()) goBack()
         else {
             Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
             thread {
@@ -41,7 +41,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         }
                     else {
                         activity?.runOnUiThread {
-                            showOptions()
+                            goBack()
                         }
                     }
                 }
@@ -72,26 +72,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         logoutbutton?.setOnClickListener{
             logOut()
         }
-    }
-    private fun showOptions(){
-        show(1)
-
-        val loginbutton:Button? = view?.findViewById(R.id.loginbutton)
-        val signupbutton:Button? = view?.findViewById(R.id.signupbutton)
-        if (loginbutton != null) {
-            makeVisible(loginbutton)
-        }
-        if (signupbutton != null) {
-            makeVisible(signupbutton)
-        }
-
-        loginbutton?.setOnClickListener{
-            startActivity(Intent(requireContext(),LoginActivity::class.java))
-        }
-        signupbutton?.setOnClickListener{
-            startActivity(Intent(requireContext(),SignupActivity::class.java))
-        }
-
     }
     private fun logOut(){
         val sharedPreferences = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
