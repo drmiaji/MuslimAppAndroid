@@ -8,9 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private var isNavigatingFromBottomNav = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,52 +28,33 @@ class MainActivity : AppCompatActivity() {
         val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val loggedin = sharedpref.getString("loggedin", null)
         if (!loggedin.isNullOrEmpty()) {
-            val dailydutiesfrag= DailyDutiesFragment()
-            val historyfrag = HistoryFragment()
-            val profilefrag = ProfileFragment()
-            val feedbackfrag = FeedBackFragment()
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.mainframelayout, dailydutiesfrag)
-                commit()
-            }
+            val viewPager:ViewPager2 = findViewById(R.id.viewPager)
+            val adapter = ViewPagerAdapter(this)
+            viewPager.adapter = adapter
             val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView)
-            bottomNavigationView.setOnItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.menu_item_home -> {
-                        supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.mainframelayout, dailydutiesfrag)
-                            commit()
-                        }
-                        true
-                    }
-
-                    R.id.menu_item_history -> {
-                        supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.mainframelayout, historyfrag)
-                            commit()
-                        }
-                        true
-                    }
-
-                    R.id.menu_item_feedback -> {
-                        supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.mainframelayout, feedbackfrag)
-                            commit()
-                        }
-                        true
-                    }
-
-                    R.id.menu_item_profile -> {
-                        supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.mainframelayout, profilefrag)
-                            commit()
-                        }
-                        true
-                    }
-
-                    else -> false
+            bottomNavigationView.setOnItemSelectedListener { menuItem ->
+                isNavigatingFromBottomNav = true
+                when (menuItem.itemId) {
+                    R.id.menu_item_home -> viewPager.setCurrentItem(0,false)
+                    R.id.menu_item_history -> viewPager.setCurrentItem(1,false)
+                    R.id.menu_item_feedback -> viewPager.setCurrentItem(2,false)
+                    R.id.menu_item_profile -> viewPager.setCurrentItem(3,false)
                 }
+                true
             }
+            viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    if (!isNavigatingFromBottomNav) {
+                        when (position) {
+                            0 -> bottomNavigationView.selectedItemId = R.id.menu_item_home
+                            1 -> bottomNavigationView.selectedItemId = R.id.menu_item_history
+                            2 -> bottomNavigationView.selectedItemId = R.id.menu_item_feedback
+                            3 -> bottomNavigationView.selectedItemId = R.id.menu_item_profile
+                        }
+                    }
+                    isNavigatingFromBottomNav = false
+                }
+            })
         }
         else startActivity(Intent(this, LoginActivity::class.java))
     }
