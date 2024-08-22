@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
+import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -24,6 +25,7 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val  now: Calendar = Calendar.getInstance()
         val formatteddate = SimpleDateFormat("dd MMMM").format(now.time)
         val datedisplay:TextView = view.findViewById(R.id.datedisplay)
@@ -48,9 +50,13 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                     setRequestProperty("Authorization","Bearer $access")
                     if (responseCode == 200)
                         inputStream.bufferedReader().use {
-                            val jsonobject = JSONArray(it.readText()) //important
+                            val json = JSONObject(it.readText())  //important
+                            val jsonoarray = json.getJSONArray("tasks")
+                            val curr_fard = json.optString("Current_Fard_Percent")
                             activity?.runOnUiThread {
-                                showTasks(jsonobject) }
+                                updatePercent(curr_fard)
+                                showTasks(jsonoarray)
+                            }
                         }
                     else
                         activity?.runOnUiThread {
@@ -91,7 +97,14 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization","Bearer $access")
                 if (responseCode == 200) {
+                    var curr_fard:String
+                    inputStream.bufferedReader().use {
+                        val response = it.readText()
+                        val responseJson = JSONObject(response)
+                        curr_fard = responseJson.optString("Current_Fard_Percent")
+                    }
                     activity?.runOnUiThread {
+                        updatePercent(curr_fard)
                         taskDoneSuccess(position,adapter)
                     }
                 }
@@ -101,6 +114,11 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                 }
             }
         }
+    }
+    private fun updatePercent(curr_fard:String){
+        val percenttext:TextView? = view?.findViewById(R.id.percent)
+        percenttext?.text = curr_fard + "%"
+
     }
     private fun taskDoneSuccess(position: Int, adapter: Adapter){
         taskList.removeAt(position)
