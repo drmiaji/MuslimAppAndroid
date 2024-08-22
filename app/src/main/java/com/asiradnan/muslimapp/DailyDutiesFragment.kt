@@ -112,11 +112,6 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         val bundle = Bundle()
         bundle.putString("title",task.title)
         bundle.putString("detail",task.detail)
-        val fragment = TaskDetailFragment()
-        fragment.arguments = bundle
-        requireActivity().supportFragmentManager.beginTransaction().apply(){
-            replace(R.id.mainframelayout,fragment)
-            commit()
-        }
+        (activity as? MainActivity)?.navigateToTaskDetail(bundle)
     }
 }

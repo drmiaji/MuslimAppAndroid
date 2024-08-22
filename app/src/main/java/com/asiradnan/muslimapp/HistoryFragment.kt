@@ -22,13 +22,18 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     private lateinit var recyclerView: RecyclerView
     val datelist = ArrayList<Date>()
     private lateinit var jsonobject: JSONObject
-    private lateinit var dateStrings:MutableList<String>
+    private lateinit var dateStrings: MutableList<String>
 
     override fun onStart() {
         super.onStart()
         val sharedPreference = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedPreference.getString("accesstoken", null)
-        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
+        if (access.isNullOrEmpty()) startActivity(
+            Intent(
+                requireContext(),
+                LoginActivity::class.java
+            )
+        )
         else {
             recyclerView = view?.findViewById(R.id.dateRecyclerView) ?: return
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -41,20 +46,22 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                     if (responseCode == 200) {
                         inputStream.bufferedReader().use {
                             jsonobject = JSONObject(it.readText()) //important
-                            activity?. runOnUiThread {
+                            activity?.runOnUiThread {
                                 showDates()
                             }
                         }
                     } else {
                         activity?.runOnUiThread {
-                            Toast.makeText(requireContext(), "Could not load", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Could not load", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
             }
         }
     }
-    private fun showDates(){
+
+    private fun showDates() {
         datelist.clear()
         val keys = jsonobject.keys()
         dateStrings = mutableListOf()
@@ -69,21 +76,17 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         datelist.reverse()
         val adapter = DateAdapter(datelist)
         recyclerView.adapter = adapter
-        adapter.onItemClickListener(object : DateAdapter.onItemClickListener{
+        adapter.onItemClickListener(object : DateAdapter.onItemClickListener {
             override fun holderClick(position: Int) {
                 sendToHistoryDetail(position)
             }
         })
     }
-    private fun sendToHistoryDetail(position: Int){
+
+    private fun sendToHistoryDetail(position: Int) {
         val bundle = Bundle()
         val arr = jsonobject.getJSONArray(dateStrings[position])
         bundle.putString("list", arr.toString())
-        val fragment = HistoryDetailFragment()
-        fragment.arguments = bundle
-        requireActivity().supportFragmentManager.beginTransaction().apply() {
-            replace(R.id.mainframelayout, fragment) // Replace `fragment_container` with your container ID
-            commit()
-        }
+        (activity as? MainActivity)?.navigateToHistoryDetail(bundle)
     }
 }

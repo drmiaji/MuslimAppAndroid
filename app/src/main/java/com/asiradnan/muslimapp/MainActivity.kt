@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,17 +30,32 @@ class MainActivity : AppCompatActivity() {
         val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val loggedin = sharedpref.getString("loggedin", null)
         if (!loggedin.isNullOrEmpty()) {
-            val viewPager:ViewPager2 = findViewById(R.id.viewPager)
+
+            val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+            val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+            onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (supportFragmentManager.backStackEntryCount > 0) {
+                        supportFragmentManager.popBackStack()
+                        viewPager.visibility = View.VISIBLE
+                        bottomNavigationView.visibility = View.VISIBLE
+                    } else {
+                        if (viewPager.currentItem == 0) finish()
+                        viewPager.currentItem = 0
+                        bottomNavigationView.selectedItemId = R.id.menu_item_home
+                    }
+                }
+            })
+
             val adapter = ViewPagerAdapter(this)
             viewPager.adapter = adapter
-            val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView)
             bottomNavigationView.setOnItemSelectedListener { menuItem ->
                 isNavigatingFromBottomNav = true
                 when (menuItem.itemId) {
-                    R.id.menu_item_home -> viewPager.setCurrentItem(0,false)
-                    R.id.menu_item_history -> viewPager.setCurrentItem(1,false)
-                    R.id.menu_item_feedback -> viewPager.setCurrentItem(2,false)
-                    R.id.menu_item_profile -> viewPager.setCurrentItem(3,false)
+                    R.id.menu_item_home -> viewPager.setCurrentItem(0, false)
+                    R.id.menu_item_history -> viewPager.setCurrentItem(1, false)
+                    R.id.menu_item_feedback -> viewPager.setCurrentItem(2, false)
+                    R.id.menu_item_profile -> viewPager.setCurrentItem(3, false)
                 }
                 true
             }
@@ -55,7 +72,36 @@ class MainActivity : AppCompatActivity() {
                     isNavigatingFromBottomNav = false
                 }
             })
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
-        else startActivity(Intent(this, LoginActivity::class.java))
+    }
+
+    fun navigateToTaskDetail(bundle: Bundle) {
+        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        viewPager.visibility = View.GONE
+        bottomNavigationView.visibility = View.GONE
+        val fragment = TaskDetailFragment()
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().apply(){
+            replace(R.id.mainframelayout,fragment)
+            addToBackStack(null)
+            commit()
+        }
+    }
+    fun navigateToHistoryDetail(bundle: Bundle) {
+        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        viewPager.visibility = View.GONE
+        bottomNavigationView.visibility = View.GONE
+        val fragment = HistoryDetailFragment()
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.mainframelayout, fragment)
+            addToBackStack(null)
+            commit()
+        }
     }
 }
