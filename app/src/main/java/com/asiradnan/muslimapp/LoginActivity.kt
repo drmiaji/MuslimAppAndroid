@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this,SignupActivity::class.java))
         }
         button.setOnClickListener {
+            Toast.makeText(this, "Please wait",Toast.LENGTH_SHORT).show()
             try {
                 val username = usernameInput.text?.toString() ?: ""
                 val password = passwordInput.text?.toString() ?: ""
