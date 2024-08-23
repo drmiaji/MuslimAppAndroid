@@ -20,7 +20,6 @@ import kotlin.concurrent.thread
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onStart() {
         super.onStart()
-        show(2)
         val sharedPreferences = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences.getString("accesstoken", null)
         if (accessToken.isNullOrEmpty()) goBack()
@@ -50,8 +49,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     }
     private fun showProfile(response:JSONObject){
-        show(0)
-
         val name:TextView? = view?.findViewById(R.id.name)
         val age: TextView? = view?.findViewById(R.id.age)
         val marital:TextView? = view?.findViewById(R.id.marital)
@@ -106,83 +103,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
     private fun goBack(){
         startActivity(Intent(requireContext(),LoginActivity::class.java))
-    }
-    private fun makeInvisible(x:View?){
-        x?.visibility = View.GONE
-    }
-    private fun makeVisible(x:View?){
-        x?.visibility = View.VISIBLE
-    }
-    private fun show(flag:Int) {
-        val name: TextView? = view?.findViewById(R.id.name)
-        val age: TextView? = view?.findViewById(R.id.age)
-        val marital: TextView? = view?.findViewById(R.id.marital)
-        val gender: TextView? = view?.findViewById(R.id.gender)
-        val username: TextView? = view?.findViewById(R.id.username)
-        val email: TextView? = view?.findViewById(R.id.email)
-        val namelabel: TextView? = view?.findViewById(R.id.namelabel)
-        val agelabel: TextView? = view?.findViewById(R.id.agelabel)
-        val maritallabel: TextView? = view?.findViewById(R.id.maritallabel)
-        val genderlabel: TextView? = view?.findViewById(R.id.genderlabel)
-        val usernamelabel: TextView? = view?.findViewById(R.id.usernamelabel)
-        val emaillabel: TextView? = view?.findViewById(R.id.emaillabel)
-        val profileheader: TextView? = view?.findViewById(R.id.profileheader)
-        val logoutbutton: Button? = view?.findViewById(R.id.logoutbutton)
-        val loginbutton: Button? = view?.findViewById(R.id.loginbutton)
-        val signupbutton: Button? = view?.findViewById(R.id.signupbutton)
-        if (flag == 0) {
-            makeInvisible(loginbutton)
-            makeInvisible(signupbutton)
-
-            makeVisible(name)
-            makeVisible(age)
-            makeVisible(marital)
-            makeVisible(gender)
-            makeVisible(username)
-            makeVisible(email)
-            makeVisible(namelabel)
-            makeVisible(agelabel)
-            makeVisible(maritallabel)
-            makeVisible(genderlabel)
-            makeVisible(usernamelabel)
-            makeVisible(emaillabel)
-            makeVisible(logoutbutton)
-            makeVisible(profileheader)
-        } else if (flag == 1) {
-            makeInvisible(name)
-            makeInvisible(age)
-            makeInvisible(marital)
-            makeInvisible(gender)
-            makeInvisible(username)
-            makeInvisible(email)
-            makeInvisible(namelabel)
-            makeInvisible(agelabel)
-            makeInvisible(maritallabel)
-            makeInvisible(genderlabel)
-            makeInvisible(usernamelabel)
-            makeInvisible(emaillabel)
-            makeInvisible(logoutbutton)
-            makeInvisible(profileheader)
-
-            makeVisible(loginbutton)
-            makeVisible(signupbutton)
-        } else {
-            makeInvisible(name)
-            makeInvisible(age)
-            makeInvisible(marital)
-            makeInvisible(gender)
-            makeInvisible(username)
-            makeInvisible(email)
-            makeInvisible(namelabel)
-            makeInvisible(agelabel)
-            makeInvisible(maritallabel)
-            makeInvisible(genderlabel)
-            makeInvisible(usernamelabel)
-            makeInvisible(emaillabel)
-            makeInvisible(logoutbutton)
-            makeInvisible(profileheader)
-            makeInvisible(loginbutton)
-            makeInvisible(signupbutton)
-        }
     }
 }
