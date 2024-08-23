@@ -12,7 +12,7 @@
         android:id="@+id/firstnameinput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="85dp"
         android:ems="10"
         android:hint="First name"
         android:inputType="text"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Email address (Optional):"
+        android:hint="Email address (Optional)"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="@+id/passwordinput"
         app:layout_constraintTop_toBottomOf="@+id/passwordinput" />
@@ -128,23 +128,13 @@
 
     <Button
         android:id="@+id/signup"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Sign Up"
+        app:layout_constraintWidth_percent="0.6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maritalRadioGroup" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-         android:layout_width="match_parent"
-        app:labelVisibilityMode="unlabeled"
-        android:layout_height="wrap_content"
-        app:itemIconSize="35dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

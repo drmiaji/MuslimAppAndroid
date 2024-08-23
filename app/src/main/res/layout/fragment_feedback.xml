@@ -4,52 +4,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DailyDutiesFragment">
+    tools:context=".FeedBackFragment">
 
-    <EditText
-        android:id="@+id/detailinput"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="136dp"
-        android:ems="10"
-        android:inputType="text"
-         android:hint="Detail"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Suggest more Duties to add with reference from Quran or authentic Hadith Books with Verse number"
+        android:textSize="17sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/bookinput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.367"
+        app:layout_constraintWidth_percent="0.9" />
 
     <EditText
         android:id="@+id/bookinput"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:inputType="text"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.7"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textSize="15sp"
         android:hint="Book"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailinput" />
+        app:layout_constraintBottom_toTopOf="@+id/numinput" />
 
     <EditText
         android:id="@+id/numinput"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="44dp"
-        android:ems="10"
-         android:hint="Number"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.7"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="Verse/Hadith Number"
+        android:textSize="15sp"
         android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/detailinput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/detailinput"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/feedback_detailinput_border"
+        android:gravity="top|start"
+        android:hint="Hey, I found this duty missing for a married male that the Prophet told us to do..."
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:minLines="6"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bookinput" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.579"
+        app:layout_constraintWidth_percent="0.7" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="150dp"
+        android:layout_marginTop="30dp"
         android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintTop_toBottomOf="@id/detailinput"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
@@ -20,32 +21,26 @@ import kotlin.concurrent.thread
 
 class HistoryFragment : Fragment(R.layout.fragment_history) {
     private lateinit var recyclerView: RecyclerView
-    val datelist = ArrayList<Date>()
-    private lateinit var jsonobject: JSONObject
-    private lateinit var dateStrings: MutableList<String>
+    val historypointslist = ArrayList<HistoryPoints>()
+    private lateinit var jsonarray: JSONArray
 
     override fun onStart() {
         super.onStart()
         val sharedPreference = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedPreference.getString("accesstoken", null)
-        if (access.isNullOrEmpty()) startActivity(
-            Intent(
-                requireContext(),
-                LoginActivity::class.java
-            )
-        )
+        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(), LoginActivity::class.java))
         else {
             recyclerView = view?.findViewById(R.id.dateRecyclerView) ?: return
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             Toast.makeText(requireContext(), "Wait..", Toast.LENGTH_SHORT).show()
             thread {
-                val url = URL("https://muslimapp.vercel.app/duties/myhistory")
+                val url = URL("https://muslimapp.vercel.app/duties/get_history")
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "GET"
                     setRequestProperty("Authorization", "Bearer $access")
                     if (responseCode == 200) {
                         inputStream.bufferedReader().use {
-                            jsonobject = JSONObject(it.readText()) //important
+                            jsonarray = JSONArray(it.readText()) //important
                             activity?.runOnUiThread {
                                 showDates()
                             }
@@ -62,19 +57,19 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     }
 
     private fun showDates() {
-        datelist.clear()
-        val keys = jsonobject.keys()
-        dateStrings = mutableListOf()
-        while (keys.hasNext()) {
-            val key = keys.next()
-            dateStrings.add(key)
-            val formatter = SimpleDateFormat("yyyy-MM-dd")
-            val date: Date = formatter.parse(key)
-            datelist.add(date)
+        historypointslist.clear()
+        for (i in 0 until jsonarray.length()){
+            val json = jsonarray.getJSONObject(i)
+            val historypoint = HistoryPoints(
+                date = json.getString("date"),
+                fard = json.getDouble("fard_percent"),
+                sunnah = json.getDouble("sunnah_percent"),
+                nafl = json.getInt("nafl_points")
+            )
+            historypointslist.add(historypoint)
         }
-        dateStrings.reverse()
-        datelist.reverse()
-        val adapter = DateAdapter(datelist)
+        historypointslist.reverse()
+        val adapter = DateAdapter(historypointslist)
         recyclerView.adapter = adapter
         adapter.onItemClickListener(object : DateAdapter.onItemClickListener {
             override fun holderClick(position: Int) {
@@ -85,8 +80,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     private fun sendToHistoryDetail(position: Int) {
         val bundle = Bundle()
-        val arr = jsonobject.getJSONArray(dateStrings[position])
-        bundle.putString("list", arr.toString())
+        bundle.putString("date", historypointslist[position].date)
         (activity as? MainActivity)?.navigateToHistoryDetail(bundle)
     }
 }

@@ -65,6 +65,5 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
     private fun ok(){
         val btn:Button? = view?.findViewById(R.id.button4)
         btn?.text = "200";
-        Log.d("loggerboi","got 200")
     }
 }

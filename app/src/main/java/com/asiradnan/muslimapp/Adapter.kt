@@ -1,5 +1,7 @@
 package com.asiradnan.muslimapp
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,8 +30,11 @@ class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("loggerboi","onbindview")
         val currentItem = datalist[position]
         holder.title.text = currentItem.title
+        if (currentItem.type == "sunnah") holder.title.setTextColor(Color.parseColor("#008000"))
+        else if (currentItem.type == "nafl") holder.title.setTextColor(Color.parseColor("#FFFF00"))
 
     }
     class ViewHolder (itemView: View, listener: onItemClickListener):RecyclerView.ViewHolder(itemView) {

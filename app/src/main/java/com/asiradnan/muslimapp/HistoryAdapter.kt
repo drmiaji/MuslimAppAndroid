@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HistoryAdapter (private var datalist:ArrayList<HistoryTask>):RecyclerView.Adapter<HistoryAdapter.ViewHolder>(){
+class HistoryAdapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<HistoryAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.historytask_layout, parent, false)

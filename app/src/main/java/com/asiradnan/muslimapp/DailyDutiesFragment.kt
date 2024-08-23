@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -53,8 +55,12 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                             val json = JSONObject(it.readText())  //important
                             val jsonoarray = json.getJSONArray("tasks")
                             val curr_fard = json.optString("Current_Fard_Percent")
+                            val curr_sunnah = json.optString("Current_Sunnah_Percent")
+                            val curr_nafl = json.optString("Current_Nafl_Points")
                             activity?.runOnUiThread {
-                                updatePercent(curr_fard)
+                                updateScore(curr_fard,"fard")
+                                updateScore(curr_sunnah,"sunnah")
+                                updateScore(curr_nafl,"nafl")
                                 showTasks(jsonoarray)
                             }
                         }
@@ -73,7 +79,8 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
             val task = Task(
                 id = taskJson.getInt("id"),
                 title = taskJson.getString("title"),
-                detail = taskJson.getString("detail")
+                detail = taskJson.getString("detail"),
+                type = taskJson.getString("type")
             )
             taskList.add(task)
         }
@@ -97,14 +104,16 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization","Bearer $access")
                 if (responseCode == 200) {
-                    var curr_fard:String
+                    var curr:String
                     inputStream.bufferedReader().use {
                         val response = it.readText()
                         val responseJson = JSONObject(response)
-                        curr_fard = responseJson.optString("Current_Fard_Percent")
+                        if (taskList[position].type == "fard")  curr = responseJson.optString("Current_Fard_Percent")
+                        else if (taskList[position].type == "sunnah")  curr = responseJson.optString("Current_Sunnah_Percent")
+                        else curr = responseJson.optString("Current_Nafl_Points")
                     }
                     activity?.runOnUiThread {
-                        updatePercent(curr_fard)
+                        updateScore(curr, taskList[position].type)
                         taskDoneSuccess(position,adapter)
                     }
                 }
@@ -115,10 +124,14 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
             }
         }
     }
-    private fun updatePercent(curr_fard:String){
-        val percenttext:TextView? = view?.findViewById(R.id.percent)
-        percenttext?.text = curr_fard + "%"
-
+    private fun updateScore(curr:String, type:String){
+        val tochange: CircularProgressIndicator?;
+        if (type == "fard")  tochange = view?.findViewById(R.id.percent)
+        else  tochange = view?.findViewById(R.id.sunnahpercent)
+//        else tochange = view?.findViewById(R.id.naflpoints)
+//        if (type=="nafl") tochange?.text = curr
+//        else tochange?.text = curr + "%"
+        tochange?.progress = curr.toFloat().toInt()
     }
     private fun taskDoneSuccess(position: Int, adapter: Adapter){
         taskList.removeAt(position)

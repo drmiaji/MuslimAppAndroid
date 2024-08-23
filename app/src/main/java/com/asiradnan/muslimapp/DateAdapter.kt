@@ -5,11 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-class DateAdapter(private var datelist:ArrayList<Date>):RecyclerView.Adapter<DateAdapter.ViewHolder> (){
+class DateAdapter(private var historypointslist:ArrayList<HistoryPoints>):RecyclerView.Adapter<DateAdapter.ViewHolder> (){
 
     private lateinit var mlistener: onItemClickListener
     interface onItemClickListener{
@@ -20,23 +17,27 @@ class DateAdapter(private var datelist:ArrayList<Date>):RecyclerView.Adapter<Dat
         mlistener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.date_layout,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.historypoints_layout,parent,false)
         return ViewHolder(itemView,mlistener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val curr = datelist[position]
-        val formatter = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-        holder.date.text = formatter.format(curr)
+        val curr = historypointslist[position]
+        holder.date.text = curr.date
+        holder.fard.text = curr.fard.toString() +"% "
+        holder.sunnah.text = curr.sunnah.toString() +"% "
+        holder.nafl.text = curr.nafl.toString()
     }
 
     override fun getItemCount(): Int {
-        return datelist.size
+        return historypointslist.size
     }
 
     class ViewHolder (itemView: View, listener: onItemClickListener):RecyclerView.ViewHolder(itemView) {
         val date:TextView = itemView.findViewById(R.id.history_date)
-
+        val fard:TextView = itemView.findViewById(R.id.history_fard)
+        val sunnah:TextView = itemView.findViewById(R.id.history_sunnah)
+        val nafl:TextView = itemView.findViewById(R.id.history_nafl)
         init{
             itemView.setOnClickListener{
                 listener.holderClick(adapterPosition)
