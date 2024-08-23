@@ -39,10 +39,10 @@ class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapte
     }
     class ViewHolder (itemView: View, listener: onItemClickListener):RecyclerView.ViewHolder(itemView) {
         val title:TextView = itemView.findViewById(R.id.title)
-        val donebutton:Button = itemView.findViewById(R.id.donebutton)
+        val checkbox:Button = itemView.findViewById(R.id.checkBox)
 
         init{
-            donebutton.setOnClickListener{
+            checkbox.setOnClickListener{
                 listener.buttonClick(adapterPosition)
             }
             itemView.setOnClickListener{

@@ -56,6 +56,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val username:TextView? = view?.findViewById(R.id.username)
         val email:TextView? = view?.findViewById(R.id.email)
         val logoutbutton: Button? = view?.findViewById(R.id.logoutbutton)
+        val changeemail: Button? = view?.findViewById(R.id.changeemail)
+        val changepassword: Button? = view?.findViewById(R.id.changepassword)
 
         name?.text = response.optString("first_name") + " " + response.optString("last_name")
         age?.text = response.optString("age")
@@ -68,6 +70,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         logoutbutton?.setOnClickListener{
             logOut()
+        }
+        changeemail?.setOnClickListener{
+            startActivity(Intent(requireContext(),ChangeEmailActivity::class.java))
+        }
+        changepassword?.setOnClickListener {
+            startActivity(Intent(requireContext(),ChangePasswordActivity::class.java))
         }
     }
     private fun logOut(){

@@ -32,42 +32,53 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintWidth_percent="0.4"/>
 
-            <TextView
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/history_fard"
                 android:layout_width="wrap_content"
-                android:layout_height="40sp"
-                android:text="Fard"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/history_date"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:indeterminateBehavior="cycle"
+                android:max="100"
+                android:progress="50"
+                android:rotation="180"
+                app:indicatorInset="5dp"
+                app:indicatorSize="30dp"
+                app:layout_constraintEnd_toStartOf="@+id/history_sunnah"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:trackColor="@color/neutral_track_color"
+                app:trackThickness="3dp" />
 
-            <TextView
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/history_sunnah"
                 android:layout_width="wrap_content"
-                android:layout_height="40sp"
-                android:text="Sunnah"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:textSize="18sp"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:indeterminateBehavior="cycle"
+                android:max="100"
+                android:progress="50"
+                android:rotation="180"
+                app:indicatorInset="5dp"
+                app:indicatorSize="30dp"
+               app:layout_constraintEnd_toStartOf="@id/history_nafl"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/history_fard"/>
+                app:trackColor="@color/neutral_track_color"
+                app:trackThickness="3dp" />
 
-            <TextView
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/history_nafl"
                 android:layout_width="wrap_content"
-                android:layout_height="40sp"
-                android:text="Nafl"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="18sp"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:indeterminateBehavior="cycle"
+                android:max="100"
+                android:progress="50"
+                android:rotation="180"
+                app:indicatorInset="5dp"
+                app:indicatorSize="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/history_sunnah"/>
-
+                app:trackColor="@color/neutral_track_color"
+                app:trackThickness="3dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

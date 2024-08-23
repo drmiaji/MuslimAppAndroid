@@ -10,7 +10,7 @@
         android:id="@+id/profileheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:text="Profile"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -20,43 +20,48 @@
 
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="TextView"
+        android:layout_marginTop="10dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/genderlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:text="Gender: "
         app:layout_constraintStart_toStartOf="@+id/agelabel"
         app:layout_constraintTop_toBottomOf="@+id/agelabel" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="67dp"
-        android:text="TextView"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="30dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/profileheader"
         app:layout_constraintTop_toBottomOf="@+id/profileheader" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:text="TextView"
+        android:layout_marginTop="10dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/marital"
         app:layout_constraintTop_toBottomOf="@+id/marital" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/namelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,74 +72,101 @@
         app:layout_constraintTop_toTopOf="@+id/name" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/maritallabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="10dp"
         android:text="Marital Status: "
         app:layout_constraintStart_toStartOf="@+id/genderlabel"
         app:layout_constraintTop_toBottomOf="@+id/genderlabel" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/agelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="10dp"
         android:text="Age: "
         app:layout_constraintStart_toStartOf="@+id/namelabel"
         app:layout_constraintTop_toBottomOf="@+id/namelabel" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:text="TextView"
+        android:layout_marginTop="10dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/marital"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="TextView"
+        android:layout_marginTop="10dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/gender"
         app:layout_constraintTop_toBottomOf="@+id/gender" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/emaillabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="10dp"
         android:text="Email: "
         app:layout_constraintStart_toStartOf="@+id/usernamelabel"
         app:layout_constraintTop_toBottomOf="@+id/usernamelabel" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/usernamelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="username"
+        android:layout_marginTop="10dp"
+        android:text="username:"
         app:layout_constraintStart_toStartOf="@+id/maritallabel"
         app:layout_constraintTop_toBottomOf="@+id/maritallabel" />
 
     <TextView
+        android:textSize="17sp"
         android:id="@+id/gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="TextView"
+        android:layout_marginTop="10dp"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/age"
         app:layout_constraintTop_toBottomOf="@+id/age" />
 
+    <Button
+        android:id="@+id/changepassword"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.65"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Change Password"
+        app:layout_constraintBottom_toTopOf="@+id/changeemail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/changeemail"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.65"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Change Email"
+        app:layout_constraintBottom_toTopOf="@+id/logoutbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <Button
         android:id="@+id/logoutbutton"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.65"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

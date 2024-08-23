@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 class DateAdapter(private var historypointslist:ArrayList<HistoryPoints>):RecyclerView.Adapter<DateAdapter.ViewHolder> (){
 
@@ -24,9 +25,9 @@ class DateAdapter(private var historypointslist:ArrayList<HistoryPoints>):Recycl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val curr = historypointslist[position]
         holder.date.text = curr.date
-        holder.fard.text = curr.fard.toString() +"% "
-        holder.sunnah.text = curr.sunnah.toString() +"% "
-        holder.nafl.text = curr.nafl.toString()
+        holder.fard.progress = curr.fard.toInt()
+        holder.sunnah.progress = curr.sunnah.toInt()
+        holder.nafl.progress = curr.nafl
     }
 
     override fun getItemCount(): Int {
@@ -35,9 +36,9 @@ class DateAdapter(private var historypointslist:ArrayList<HistoryPoints>):Recycl
 
     class ViewHolder (itemView: View, listener: onItemClickListener):RecyclerView.ViewHolder(itemView) {
         val date:TextView = itemView.findViewById(R.id.history_date)
-        val fard:TextView = itemView.findViewById(R.id.history_fard)
-        val sunnah:TextView = itemView.findViewById(R.id.history_sunnah)
-        val nafl:TextView = itemView.findViewById(R.id.history_nafl)
+        val fard:CircularProgressIndicator = itemView.findViewById(R.id.history_fard)
+        val sunnah:CircularProgressIndicator = itemView.findViewById(R.id.history_sunnah)
+        val nafl:CircularProgressIndicator = itemView.findViewById(R.id.history_nafl)
         init{
             itemView.setOnClickListener{
                 listener.holderClick(adapterPosition)
