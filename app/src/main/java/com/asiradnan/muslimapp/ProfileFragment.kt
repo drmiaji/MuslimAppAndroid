@@ -3,6 +3,7 @@ package com.asiradnan.muslimapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val logoutbutton: Button? = view?.findViewById(R.id.logoutbutton)
         val changeemail: Button? = view?.findViewById(R.id.changeemail)
         val changepassword: Button? = view?.findViewById(R.id.changepassword)
+        val updateprofile: Button? = view?.findViewById(R.id.updateprofile)
 
         name?.text = response.optString("first_name") + " " + response.optString("last_name")
         age?.text = response.optString("age")
@@ -76,6 +78,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
         changepassword?.setOnClickListener {
             startActivity(Intent(requireContext(),ChangePasswordActivity::class.java))
+        }
+        updateprofile?.setOnClickListener {
+            val intent = Intent(requireContext(),UpdateProfileActivity::class.java)
+            intent.putExtra("first_name",response.optString("first_name"))
+            intent.putExtra("last_name",response.optString("last_name"))
+            intent.putExtra("gender","${gender?.text}")
+            intent.putExtra("marital","${marital?.text}")
+            intent.putExtra("email","${email?.text}")
+            intent.putExtra("age","${age?.text}")
+            startActivity(intent)
         }
     }
     private fun logOut(){

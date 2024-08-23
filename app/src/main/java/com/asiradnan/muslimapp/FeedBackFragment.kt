@@ -20,13 +20,14 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
 
         val btn: Button = view.findViewById(R.id.button4)
         btn.setOnClickListener {
-            val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
+            val sharedpref =
+                requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
             val access = sharedpref.getString("accesstoken", null)
             if (!access.isNullOrEmpty()) {
                 val detailinput: TextView = view.findViewById(R.id.detailinput)
                 val numinput: TextView = view.findViewById(R.id.numinput)
                 val bookinput: TextView = view.findViewById(R.id.bookinput)
-                Log.d("loggerboi","before thread")
+                Log.d("loggerboi", "before thread")
                 thread {
                     val url = URL("https://muslimapp.vercel.app/duties/feedback")
                     val jsonObject = JSONObject()
@@ -50,7 +51,13 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
                         }
                         if (responseCode == 200)
                             activity?.runOnUiThread {
-                                ok()
+                                val detailinput: TextView = view.findViewById(R.id.detailinput)
+                                val numinput: TextView = view.findViewById(R.id.numinput)
+                                val bookinput: TextView = view.findViewById(R.id.bookinput)
+                                detailinput.text = ""
+                                numinput.text = ""
+                                bookinput.text = ""
+                                Toast.makeText(requireContext(),"Thanks for your contribution!",Toast.LENGTH_SHORT).show()
                             }
                         else
                             activity?.runOnUiThread {
@@ -62,8 +69,8 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
             }
         }
     }
-    private fun ok(){
-        val btn:Button? = view?.findViewById(R.id.button4)
-        btn?.text = "200";
+
+    private fun ok() {
+
     }
 }

@@ -10,8 +10,9 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Suggest more Duties to add with reference from Quran or authentic Hadith Books with Verse number"
+        android:text="Suggest us to add Duties with reference"
         android:textSize="17sp"
+        android:gravity="center"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/bookinput"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,10 +43,21 @@
         android:hint="Verse/Hadith Number"
         android:textSize="15sp"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/detailinput"
+        app:layout_constraintBottom_toTopOf="@+id/headerforfeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+     <TextView
+        android:id="@+id/headerforfeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        android:text="Details: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/detailinput"
+        app:layout_constraintStart_toStartOf="@id/bookinput" />
     <EditText
         android:id="@+id/detailinput"
         android:layout_width="0dp"
@@ -59,10 +71,10 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintHeight_percent="0.35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643"
+        app:layout_constraintVertical_bias="0.7"
         app:layout_constraintWidth_percent="0.7" />
 
     <Button
@@ -70,10 +82,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Button"
+        android:text="Send Suggestion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.7"
         app:layout_constraintTop_toBottomOf="@id/detailinput"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        android:text="Reference: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bookinput"
+        app:layout_constraintStart_toStartOf="@id/bookinput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

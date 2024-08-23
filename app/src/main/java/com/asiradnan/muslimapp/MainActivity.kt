@@ -1,5 +1,6 @@
 package com.asiradnan.muslimapp
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val loggedin = sharedpref.getString("loggedin", null)
         if (!loggedin.isNullOrEmpty()) {
-
             val viewPager: ViewPager2 = findViewById(R.id.viewPager)
             val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
             onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -77,7 +77,14 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            val fragmentIndex = data.getIntExtra("FRAGMENT_INDEX", 0)
+            viewPager.currentItem = fragmentIndex
+        }
+    }
     fun navigateToTaskDetail(bundle: Bundle) {
         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
