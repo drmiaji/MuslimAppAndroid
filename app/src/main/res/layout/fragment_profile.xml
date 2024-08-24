@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="35dp"
         android:text=""
         app:layout_constraintStart_toStartOf="@+id/profileheader"
         app:layout_constraintTop_toBottomOf="@+id/profileheader" />

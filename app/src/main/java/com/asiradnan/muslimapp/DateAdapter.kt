@@ -27,7 +27,7 @@ class DateAdapter(private var historypointslist:ArrayList<HistoryPoints>):Recycl
         holder.date.text = curr.date
         holder.fard.progress = curr.fard.toInt()
         holder.sunnah.progress = curr.sunnah.toInt()
-        holder.nafl.progress = curr.nafl
+        holder.nafl.text = curr.nafl.toString() + " Points  "
     }
 
     override fun getItemCount(): Int {
@@ -38,7 +38,7 @@ class DateAdapter(private var historypointslist:ArrayList<HistoryPoints>):Recycl
         val date:TextView = itemView.findViewById(R.id.history_date)
         val fard:CircularProgressIndicator = itemView.findViewById(R.id.history_fard)
         val sunnah:CircularProgressIndicator = itemView.findViewById(R.id.history_sunnah)
-        val nafl:CircularProgressIndicator = itemView.findViewById(R.id.history_nafl)
+        val nafl:TextView = itemView.findViewById(R.id.history_nafl)
         init{
             itemView.setOnClickListener{
                 listener.holderClick(adapterPosition)

@@ -126,12 +126,18 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
     }
     private fun updateScore(curr:String, type:String){
         val tochange: CircularProgressIndicator?;
-        if (type == "fard")  tochange = view?.findViewById(R.id.percent)
-        else  tochange = view?.findViewById(R.id.sunnahpercent)
-//        else tochange = view?.findViewById(R.id.naflpoints)
-//        if (type=="nafl") tochange?.text = curr
-//        else tochange?.text = curr + "%"
-        tochange?.progress = curr.toFloat().toInt()
+        if (type == "fard")  {
+            tochange = view?.findViewById(R.id.percent)
+            tochange?.progress = curr.toFloat().toInt()
+        }
+        else  if (type=="sunnah") {
+            tochange = view?.findViewById(R.id.sunnahpercent)
+            tochange?.progress = curr.toFloat().toInt()
+        }
+        else {
+            val nafl: TextView? = view?.findViewById(R.id.nafl_points_dd)
+            nafl?.text = curr + " Points"
+        }
     }
     private fun taskDoneSuccess(position: Int, adapter: Adapter){
         taskList.removeAt(position)

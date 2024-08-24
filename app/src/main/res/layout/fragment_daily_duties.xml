@@ -11,7 +11,7 @@
         android:id="@+id/datedisplay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Time"
         android:textAlignment="center"
@@ -24,25 +24,23 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/percent"
-        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
         android:indeterminate="false"
         android:indeterminateBehavior="cycle"
         android:max="100"
         android:progress="50"
         android:rotation="180"
-        app:indicatorInset="5dp"
-        app:indicatorSize="60dp"
+        app:indicatorSize="76dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:trackColor="@color/neutral_track_color"
-        app:trackThickness="6dp" />
+        app:trackColor="@color/track_color" />
 
     <TextView
         android:id="@+id/percenttext"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
         android:background="@drawable/progress_background"
         android:gravity="center"
         android:text="Fard"
@@ -54,25 +52,23 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/sunnahpercent"
-        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
         android:indeterminate="false"
         android:indeterminateBehavior="cycle"
         android:max="100"
-        android:progress="50"
+        android:progress="0"
         android:rotation="180"
-        app:indicatorInset="5dp"
-        app:indicatorSize="60dp"
+        app:indicatorSize="76dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:trackColor="@color/neutral_track_color"
-        app:trackThickness="6dp" />
+        app:trackColor="@color/track_color" />
 
     <TextView
         android:id="@+id/sunnahpercenttext"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
         android:background="@drawable/progress_background"
         android:gravity="center"
         android:text="Sunnah"
@@ -86,12 +82,11 @@
         android:id="@+id/dutiesheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="138dp"
         android:text="Today's Duties:"
-        android:textSize="25sp"
+        android:textSize="21sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,31 +94,39 @@
         android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="32dp"
-        android:text="Button"
+        android:layout_marginTop="84dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="Qibla"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="68dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="Calendar"
+        android:textSize="13sp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintTop_toTopOf="@+id/button5" />
+
+    <Button
+        android:id="@+id/prayertimebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="Prayer Time"
+        android:textSize="13sp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintTop_toTopOf="@+id/button5" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleview"
@@ -132,7 +135,19 @@
         android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dutiesheader" />
+        app:layout_constraintTop_toBottomOf="@+id/dutiesheader"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/nafl_points_dd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="17sp"
+        android:text="0 Points"
+        app:layout_constraintEnd_toStartOf="@+id/percent"
+        app:layout_constraintStart_toEndOf="@+id/sunnahpercent"
+        app:layout_constraintTop_toBottomOf="@+id/datedisplay" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

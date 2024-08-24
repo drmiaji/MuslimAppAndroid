@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".HistoryDetailFragment">
 
-
     <TextView
         android:id="@+id/incompletedTaskheader"
         android:layout_width="wrap_content"
@@ -46,11 +45,32 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecyclerView"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/completedLateTaskheader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/completedTaskheader" />
+
+     <TextView
+        android:id="@+id/completedLateTaskheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Late Completed Tasks"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/historyRecyclerView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/historyLateRecyclerView"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/completedTaskheader" />
-
+        app:layout_constraintTop_toBottomOf="@id/completedLateTaskheader" />
 </androidx.constraintlayout.widget.ConstraintLayout>

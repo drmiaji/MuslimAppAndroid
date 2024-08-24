@@ -12,7 +12,7 @@
         android:id="@+id/profileheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:text="Update Profile"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -20,43 +20,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/age" />
-
 
     <EditText
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
         android:text=""
-        app:layout_constraintStart_toStartOf="@+id/profileheader"
-        app:layout_constraintTop_toBottomOf="@+id/profileheader" />
+        app:layout_constraintBottom_toTopOf="@+id/lastnameinput"
+        app:layout_constraintStart_toEndOf="@id/namelabel" />
 
     <EditText
         android:id="@+id/lastnameinput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:hint=""
         android:inputType="text"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintBottom_toTopOf="@+id/age"
+        app:layout_constraintStart_toStartOf="@+id/name" />
 
     <TextView
         android:textSize="17sp"
         android:id="@+id/namelabel"
-        android:layout_marginLeft="55dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="54dp"
+        android:layout_marginStart="60dp"
         android:text="First Name: "
         app:layout_constraintBottom_toBottomOf="@+id/name"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,49 +55,32 @@
       <TextView
         android:textSize="17sp"
         android:id="@+id/lastnamelabel"
-        android:layout_marginLeft="55dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Last Name: "
         app:layout_constraintBottom_toBottomOf="@+id/lastnameinput"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/namelabel"
         app:layout_constraintTop_toTopOf="@+id/lastnameinput"  />
 
     <TextView
         android:textSize="17sp"
         android:id="@+id/agelabel"
-        android:layout_marginLeft="55dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Age: "
         app:layout_constraintBottom_toBottomOf="@+id/age"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/namelabel"
         app:layout_constraintTop_toTopOf="@+id/age"  />
 
     <EditText
-        android:textSize="17sp"
         android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:text=""
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/lastnameinput" />
-
-
-    <TextView
         android:textSize="17sp"
-        android:id="@+id/emaillabel"
-        android:layout_marginLeft="55dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Email: "
-        app:layout_constraintBottom_toBottomOf="@+id/email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/email"  />
-
-
+        app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
+        app:layout_constraintStart_toStartOf="@+id/name" />
 
 
     <RadioGroup
@@ -115,11 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email">
+        app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
             android:id="@+id/marriedRadioButton"
@@ -139,7 +112,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="1dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/genderRadioGroup"
@@ -163,7 +136,7 @@
         android:id="@+id/button6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="75dp"
         android:text="Update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

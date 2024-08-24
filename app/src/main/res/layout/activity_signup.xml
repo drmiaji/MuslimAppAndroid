@@ -92,7 +92,8 @@
             android:id="@+id/marriedRadioButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Married" />
+            android:text="Married"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/unmarriedRadioButton"
@@ -117,7 +118,8 @@
             android:id="@+id/maleRadioButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Male"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/femaleRadioButton"

@@ -6,6 +6,16 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class SharedViewModel : ViewModel() {
+    companion object {
+        private var instance: SharedViewModel? = null
+
+        fun getInstance(): SharedViewModel {
+            if (instance == null) {
+                instance = SharedViewModel()
+            }
+            return instance!!
+        }
+    }
     private val _jsonData = MutableLiveData<JSONObject>()
     private val _history = MutableLiveData<JSONArray>()
     val jsonData: LiveData<JSONObject> get() = _jsonData
