@@ -1,5 +1,6 @@
 package com.asiradnan.muslimapp
 
+import SharedViewModel
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,8 +12,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.json.JSONArray
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         val sharedpref = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val loggedin = sharedpref.getString("loggedin", null)
         if (!loggedin.isNullOrEmpty()) {
+            fetchProfileData()
+            fetchHistoryDates()
             val viewPager: ViewPager2 = findViewById(R.id.viewPager)
             val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
             onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -110,5 +120,46 @@ class MainActivity : AppCompatActivity() {
             addToBackStack(null)
             commit()
         }
+    }
+    private fun fetchProfileData() {
+        val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
+        val access = sharedPreferences.getString("accesstoken", null)
+        thread {
+            val url = URL("https://muslimapp.vercel.app/muslims/loggedin")
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+                setRequestProperty("Authorization", "Bearer $access")
+                val responseCode = responseCode
+                if (responseCode == 200)
+                    inputStream.bufferedReader().use {
+                        val jsonobject = JSONObject(it.readText())
+                        runOnUiThread {
+                            val model = ViewModelProvider(this@MainActivity).get(SharedViewModel::class.java)
+                            model.setJsonData(jsonobject)
+                        }
+                    }
+            }
+        }
+    }
+    private fun fetchHistoryDates(){
+        val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
+        val access = sharedPreferences.getString("accesstoken", null)
+        thread {
+                val url = URL("https://muslimapp.vercel.app/duties/get_history")
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+                    setRequestProperty("Authorization", "Bearer $access")
+                    if (responseCode == 200) {
+                        inputStream.bufferedReader().use {
+                            val jsonarray = JSONArray(it.readText()) //important
+                            runOnUiThread {
+                                Log.d("loggerboi",jsonarray.toString())
+                                val model = ViewModelProvider(this@MainActivity).get(SharedViewModel::class.java)
+                                model.setHistory(jsonarray)
+                            }
+                        }
+                    }
+                }
+            }
     }
 }

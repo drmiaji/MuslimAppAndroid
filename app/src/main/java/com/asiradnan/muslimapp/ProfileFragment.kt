@@ -1,5 +1,6 @@
 package com.asiradnan.muslimapp
 
+import SharedViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -21,31 +24,9 @@ import kotlin.concurrent.thread
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onStart() {
         super.onStart()
-        val sharedPreferences = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
-        val accessToken = sharedPreferences.getString("accesstoken", null)
-        if (accessToken.isNullOrEmpty()) goBack()
-        else {
-            Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
-            thread {
-                val url = URL("https://muslimapp.vercel.app/muslims/loggedin")
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "GET"
-                    setRequestProperty("Authorization", "Bearer $accessToken")
-                    val responseCode = responseCode
-                    if (responseCode == 200)
-                        inputStream.bufferedReader().use {
-                            val jsonobject = JSONObject(it.readText())
-                            activity?.runOnUiThread {
-                                showProfile(jsonobject)
-                            }
-                        }
-                    else {
-                        activity?.runOnUiThread {
-                            goBack()
-                        }
-                    }
-                }
-            }
+        val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        model.jsonData.observe(viewLifecycleOwner) { jsonObject ->
+            showProfile(jsonObject)
         }
 
     }

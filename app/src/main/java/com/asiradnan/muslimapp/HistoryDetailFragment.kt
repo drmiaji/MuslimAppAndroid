@@ -24,9 +24,6 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val date = arguments?.getString("date")
-        if (date != null) {
-            Log.d("loggrboi",date)
-        }
         val sharedPreferences = requireContext().getSharedPreferences("authorization",Context.MODE_PRIVATE)
         val access = sharedPreferences.getString("accesstoken",null)
         if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
@@ -41,7 +38,6 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
                             val jsonarray = JSONArray(it.readText()) //important
                             activity?.runOnUiThread {
                                 if (date != null) {
-
                                     showHistoryIncompleteTask(jsonarray)
                                     fetchComplete(access,date)
                                 }
@@ -87,12 +83,10 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
             )
             taskList.add(task)
         }
-        Log.d("loggerboi",taskList.toString())
         val adapter = HistoryAdapter(taskList)
         recyclerView.adapter = adapter
     }
     private fun showHistoryIncompleteTask(jsonarray: JSONArray) {
-        Log.d("loggerboi","inside func")
         taskList2.clear()
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
@@ -104,11 +98,8 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
             )
             taskList2.add(task)
         }
-        Log.d("loggerboi",taskList2.toString())
         val adapter = Adapter(taskList2)
-Log.d("loggerboi","before recycle")
         recyclerView2.adapter = adapter
-        recyclerView.adapter = adapter
         adapter.onItemClickListener(object : Adapter.onItemClickListener{
             override fun buttonClick(position: Int) {
                 taskDone(position, adapter)

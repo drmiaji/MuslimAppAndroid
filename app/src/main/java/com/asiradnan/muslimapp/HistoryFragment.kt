@@ -1,5 +1,6 @@
 package com.asiradnan.muslimapp
 
+import SharedViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
@@ -26,36 +28,14 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     override fun onStart() {
         super.onStart()
-        val sharedPreference = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
-        val access = sharedPreference.getString("accesstoken", null)
-        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(), LoginActivity::class.java))
-        else {
-            recyclerView = view?.findViewById(R.id.dateRecyclerView) ?: return
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            Toast.makeText(requireContext(), "Wait..", Toast.LENGTH_SHORT).show()
-            thread {
-                val url = URL("https://muslimapp.vercel.app/duties/get_history")
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "GET"
-                    setRequestProperty("Authorization", "Bearer $access")
-                    if (responseCode == 200) {
-                        inputStream.bufferedReader().use {
-                            jsonarray = JSONArray(it.readText()) //important
-                            activity?.runOnUiThread {
-                                showDates()
-                            }
-                        }
-                    } else {
-                        activity?.runOnUiThread {
-                            Toast.makeText(requireContext(), "Could not load", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
-            }
+        recyclerView = view?.findViewById(R.id.dateRecyclerView) ?: return
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        model.history.observe(viewLifecycleOwner) { json ->
+            jsonarray = json
+            showDates()
         }
     }
-
     private fun showDates() {
         historypointslist.clear()
         for (i in 0 until jsonarray.length()){
