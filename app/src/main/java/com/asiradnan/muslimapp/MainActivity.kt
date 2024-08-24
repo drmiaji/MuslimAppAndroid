@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                         bottomNavigationView.visibility = View.VISIBLE
                     } else {
                         if (viewPager.currentItem == 0) finish()
-                        viewPager.currentItem = 0
                         bottomNavigationView.selectedItemId = R.id.menu_item_home
                     }
                 }
@@ -82,7 +81,8 @@ class MainActivity : AppCompatActivity() {
                     isNavigatingFromBottomNav = false
                 }
             })
-        } else {
+        }
+        else {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
