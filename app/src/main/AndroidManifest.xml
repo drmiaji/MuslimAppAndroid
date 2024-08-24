@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MuslimApp"
         tools:targetApi="31">
         <activity
+            android:name=".TaskDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdateProfileActivity"
             android:exported="false" />
         <activity

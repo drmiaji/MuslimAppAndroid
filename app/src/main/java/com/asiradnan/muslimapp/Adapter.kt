@@ -33,8 +33,8 @@ class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapte
         Log.d("loggerboi","onbindview")
         val currentItem = datalist[position]
         holder.title.text = currentItem.title
-        if (currentItem.type == "sunnah") holder.title.setTextColor(Color.parseColor("#008000"))
-        else if (currentItem.type == "nafl") holder.title.setTextColor(Color.parseColor("#FFFF00"))
+        if (currentItem.type == "sunnah") holder.title.setBackgroundColor(Color.parseColor("#3CB371"));
+        else if (currentItem.type == "nafl") holder.title.setBackgroundColor(Color.parseColor("#B8860B"));
 
     }
     class ViewHolder (itemView: View, listener: onItemClickListener):RecyclerView.ViewHolder(itemView) {

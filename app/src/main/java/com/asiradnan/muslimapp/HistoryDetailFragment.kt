@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,9 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         val access = sharedPreferences.getString("accesstoken",null)
         if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
         else{
+            val header:TextView = view.findViewById(R.id.historydetailheader)
+            header.text = date
+            Toast.makeText(requireContext(),"Loading..",Toast.LENGTH_LONG).show()
             thread{
                 val url = URL("https://muslimapp.vercel.app/duties/history_detail_incomplete/$date")
                 with (url.openConnection() as HttpURLConnection){
@@ -156,6 +160,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
         val date = arguments?.getString("date")
+        Toast.makeText(requireContext(),"Wait..",Toast.LENGTH_SHORT).show()
         thread {
             val url = URL("https://muslimapp.vercel.app/duties/done_old/${taskList2[position].id}/$date")
             Log.d("loggerboi", url.toString())
@@ -176,10 +181,10 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     }
     private fun sendToTaskDetail(position: Int){
         val task = taskList[position]
-        val bundle = Bundle()
-        bundle.putString("title",task.title)
-        bundle.putString("detail",task.detail)
-        (activity as? MainActivity)?.navigateToTaskDetail(bundle)
+        val intent = Intent(requireContext(),TaskDetailActivity::class.java)
+        intent.putExtra("title",task.title)
+        intent.putExtra("detail",task.detail)
+        startActivity(intent)
     }
     private fun taskDoneSuccess(position: Int, adapter: Adapter){
         taskList2.removeAt(position)

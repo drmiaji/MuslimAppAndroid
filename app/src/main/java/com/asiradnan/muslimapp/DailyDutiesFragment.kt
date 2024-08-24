@@ -98,6 +98,7 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
     private fun taskDone(position:Int, adapter: Adapter){
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
+        Toast.makeText(requireContext(),"Wait..",Toast.LENGTH_SHORT).show()
         thread {
             val url = URL("https://muslimapp.vercel.app/duties/done/${taskList[position].id}")
             with(url.openConnection() as HttpURLConnection) {
@@ -146,9 +147,9 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
     }
     private fun sendToTaskDetail(position: Int){
         val task = taskList[position]
-        val bundle = Bundle()
-        bundle.putString("title",task.title)
-        bundle.putString("detail",task.detail)
-        (activity as? MainActivity)?.navigateToTaskDetail(bundle)
+        val intent = Intent(requireContext(),TaskDetailActivity::class.java)
+        intent.putExtra("title",task.title)
+        intent.putExtra("detail",task.detail)
+        startActivity(intent)
     }
 }

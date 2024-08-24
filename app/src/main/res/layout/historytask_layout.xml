@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,11 +18,11 @@
         <TextView
             android:id="@+id/historytask"
             android:layout_width="match_parent"
-            android:layout_height="35sp"
+            android:layout_height="28sp"
             android:gravity="center"
             android:text="Task"
             android:textAlignment="center"
-            android:textSize="25sp" />
+            android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -95,19 +95,6 @@ class MainActivity : AppCompatActivity() {
             viewPager.currentItem = fragmentIndex
         }
     }
-    fun navigateToTaskDetail(bundle: Bundle) {
-        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        viewPager.visibility = View.GONE
-        bottomNavigationView.visibility = View.GONE
-        val fragment = TaskDetailFragment()
-        fragment.arguments = bundle
-        supportFragmentManager.beginTransaction().apply(){
-            replace(R.id.mainframelayout,fragment)
-            addToBackStack(null)
-            commit()
-        }
-    }
     fun navigateToHistoryDetail(bundle: Bundle) {
         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
