@@ -63,7 +63,8 @@ class ChangeEmailActivity : AppCompatActivity() {
                                 if (responseCode == 200)
                                     runOnUiThread {
                                         Toast.makeText(this@ChangeEmailActivity, "Email Updated!",Toast.LENGTH_SHORT).show()
-                                        fetch()
+                                        updated.up = true;
+                                        finish()
                                     }
                                 else runOnUiThread {
                                         Toast.makeText(this@ChangeEmailActivity, "Try again!", Toast.LENGTH_SHORT).show()
@@ -74,30 +75,6 @@ class ChangeEmailActivity : AppCompatActivity() {
             }
             else Toast.makeText(this@ChangeEmailActivity, "Enter a valid Email", Toast.LENGTH_SHORT).show()
 
-        }
-    }
-    private fun fetch(){
-        val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
-        val access = sharedPreferences.getString("accesstoken", null)
-        thread {
-            val url = URL("https://muslimapp.vercel.app/muslims/loggedin")
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "GET"
-                setRequestProperty("Authorization", "Bearer $access")
-                val responseCode = responseCode
-                if (responseCode == 200)
-                    inputStream.bufferedReader().use {
-                        val jsonobject = JSONObject(it.readText())
-                        runOnUiThread {
-                            val model = ViewModelProvider(application as MainActivity).get(SharedViewModel::class.java)
-                            model.setJsonData(jsonobject)
-                            val resultIntent = Intent()
-                            resultIntent.putExtra("FRAGMENT_INDEX", 3)
-                            setResult(Activity.RESULT_OK, resultIntent)
-                            finish()
-                        }
-                    }
-            }
         }
     }
 }

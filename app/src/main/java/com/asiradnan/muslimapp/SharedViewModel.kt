@@ -6,26 +6,30 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class SharedViewModel : ViewModel() {
-    companion object {
-        private var instance: SharedViewModel? = null
-
-        fun getInstance(): SharedViewModel {
-            if (instance == null) {
-                instance = SharedViewModel()
-            }
-            return instance!!
-        }
-    }
+//    companion object {
+//        private var instance: SharedViewModel? = null
+//
+//        fun getInstance(): SharedViewModel {
+//            if (instance == null) {
+//                instance = SharedViewModel()
+//            }
+//            return instance!!
+//        }
+//    }
     private val _jsonData = MutableLiveData<JSONObject>()
     private val _history = MutableLiveData<JSONArray>()
+    private val _prayertimes = MutableLiveData<JSONObject>()
     val jsonData: LiveData<JSONObject> get() = _jsonData
     val history: LiveData<JSONArray> get() = _history
+    val prayertimes: LiveData<JSONObject> get() = _prayertimes
 
     fun setJsonData(jsonObject: JSONObject) {
         _jsonData.value = jsonObject
     }
     fun setHistory(jsonArray: JSONArray) {
         _history.value = jsonArray
-        Log.d("loggerboi",jsonArray.toString()+"inside shared")
+    }
+    fun setPrayertimes(jsonObject: JSONObject){
+        _prayertimes.value = jsonObject
     }
 }

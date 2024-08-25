@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -59,6 +60,11 @@ class UpdateProfileActivity : AppCompatActivity() {
             else data.put("is_male", "False")
             if (is_married.isChecked) data.put("is_married", "True")
             else data.put("is_married", "False")
+            if (age.text.isEmpty())  {
+                Toast.makeText(this,"Enter Age",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            Toast.makeText(this,"Updating Profile...",Toast.LENGTH_SHORT).show()
             thread {
                 val url = URL("https://muslimapp.vercel.app/muslims/updateprofile")
                 val postData = data.toString()
@@ -74,34 +80,11 @@ class UpdateProfileActivity : AppCompatActivity() {
                     }
                     if (responseCode == 200) {
                         runOnUiThread {
-                            fetch()
-                        }
-                    }
-                }
-            }
-        }
-    }
-    private fun fetch(){
-        val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
-        val access = sharedPreferences.getString("accesstoken", null)
-        thread {
-            val url = URL("https://muslimapp.vercel.app/muslims/loggedin")
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "GET"
-                setRequestProperty("Authorization", "Bearer $access")
-                val responseCode = responseCode
-                if (responseCode == 200)
-                    inputStream.bufferedReader().use {
-                        val jsonobject = JSONObject(it.readText())
-                        runOnUiThread {
-                            val model = SharedViewModel.getInstance()
-                            model.setJsonData(jsonobject)
-                            val resultIntent = Intent()
-                            resultIntent.putExtra("FRAGMENT_INDEX", 3)
-                            setResult(Activity.RESULT_OK, resultIntent)
+                            updated.up = true;
                             finish()
                         }
                     }
+                }
             }
         }
     }

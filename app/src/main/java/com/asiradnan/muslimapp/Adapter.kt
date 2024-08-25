@@ -34,7 +34,7 @@ class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapte
         val currentItem = datalist[position]
         holder.title.text = currentItem.title
         if (currentItem.type == "sunnah") holder.title.setBackgroundColor(Color.parseColor("#3CB371"));
-        else if (currentItem.type == "nafl") holder.title.setBackgroundColor(Color.parseColor("#B8860B"));
+        else if (currentItem.type == "nafl") holder.title.setBackgroundColor(Color.parseColor("#FFFFE0"));
 
     }
     class ViewHolder (itemView: View, listener: onItemClickListener):RecyclerView.ViewHolder(itemView) {

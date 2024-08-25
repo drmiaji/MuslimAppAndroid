@@ -35,7 +35,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         else{
             val header:TextView = view.findViewById(R.id.historydetailheader)
             header.text = date
-            Toast.makeText(requireContext(),"Loading..",Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),"Loading...",Toast.LENGTH_LONG).show()
             thread{
                 val url = URL("https://muslimapp.vercel.app/duties/history_detail_incomplete/$date")
                 with (url.openConnection() as HttpURLConnection){

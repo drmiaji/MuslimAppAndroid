@@ -24,12 +24,13 @@ import kotlin.concurrent.thread
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onStart() {
         super.onStart()
+        Log.d("loggerboi","Inside profilefragment onstart")
         val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         model.jsonData.observe(viewLifecycleOwner) { jsonObject ->
             showProfile(jsonObject)
         }
-
     }
+
     private fun showProfile(response:JSONObject){
         val name:TextView? = view?.findViewById(R.id.name)
         val age: TextView? = view?.findViewById(R.id.age)

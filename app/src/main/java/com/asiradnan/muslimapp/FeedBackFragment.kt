@@ -69,8 +69,4 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
             }
         }
     }
-
-    private fun ok() {
-
-    }
 }

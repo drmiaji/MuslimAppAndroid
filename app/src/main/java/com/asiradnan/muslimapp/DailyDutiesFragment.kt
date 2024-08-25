@@ -1,14 +1,17 @@
 package com.asiradnan.muslimapp
 
+import SharedViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -32,19 +35,35 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         val formatteddate = SimpleDateFormat("dd MMMM").format(now.time)
         val datedisplay:TextView = view.findViewById(R.id.datedisplay)
         datedisplay.text = formatteddate
+
+
+        val calendar: Button = view.findViewById(R.id.calendarbtn)
+        val prayertimebtn : Button = view.findViewById(R.id.prayertimebutton)
+        prayertimebtn.setOnClickListener {
+            val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+            model.prayertimes.observe(viewLifecycleOwner) { jsonObject ->
+                val intent = Intent(requireContext(),PrayerTimeActivity::class.java)
+                intent.putExtra("Fajr", jsonObject.optString("Fajr"))
+                intent.putExtra("Sunrise", jsonObject.optString("Sunrise"))
+                intent.putExtra("Dhuhr", jsonObject.optString("Dhuhr"))
+                intent.putExtra("Asr", jsonObject.optString("Asr"))
+                intent.putExtra("Maghrib", jsonObject.optString("Maghrib"))
+                intent.putExtra("Sunset", jsonObject.optString("Sunset"))
+                intent.putExtra("Isha", jsonObject.optString("Isha"))
+                startActivity(intent)
+            }
+        }
     }
 
 
     override fun onStart() {
         super.onStart()
-        Log.d("loggerboi","inside on start")
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
         if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
         else{
             recyclerView = view?.findViewById(R.id.recycleview) ?: return
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            Toast.makeText(requireContext(),"Wait..",Toast.LENGTH_SHORT).show()
             thread{
                 val url = URL("https://muslimapp.vercel.app/duties/mytask")
                 with(url.openConnection() as HttpURLConnection){

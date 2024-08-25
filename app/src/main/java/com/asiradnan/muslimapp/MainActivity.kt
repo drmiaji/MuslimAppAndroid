@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +24,6 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
-
     private var isNavigatingFromBottomNav = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         if (!loggedin.isNullOrEmpty()) {
             fetchProfileData()
             fetchHistoryDates()
+            fetchPrayertimes()
             val viewPager: ViewPager2 = findViewById(R.id.viewPager)
             val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
             onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -87,12 +88,11 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            val fragmentIndex = data.getIntExtra("FRAGMENT_INDEX", 0)
-            viewPager.currentItem = fragmentIndex
+    override fun onRestart() {
+        super.onRestart()
+        if (updated.up) {
+            fetchProfileData()
+            updated.up = false
         }
     }
     fun navigateToHistoryDetail(bundle: Bundle) {
@@ -140,7 +140,6 @@ class MainActivity : AppCompatActivity() {
                         inputStream.bufferedReader().use {
                             val jsonarray = JSONArray(it.readText()) //important
                             runOnUiThread {
-                                Log.d("loggerboi",jsonarray.toString())
                                 val model = ViewModelProvider(this@MainActivity).get(SharedViewModel::class.java)
                                 model.setHistory(jsonarray)
                             }
@@ -148,5 +147,22 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+    private fun fetchPrayertimes(){
+        thread {
+            val url = URL("https://api.aladhan.com/v1/timings/17-07-2007?latitude=23.777176&longitude=90.399452&method=1")
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+                if (responseCode == 200) {
+                    inputStream.bufferedReader().use {
+                        val jsonobject = JSONObject(it.readText()) //important
+                        runOnUiThread {
+                            val model = ViewModelProvider(this@MainActivity).get(SharedViewModel::class.java)
+                            model.setPrayertimes(jsonobject.getJSONObject("data").getJSONObject("timings"))
+                        }
+                    }
+                }
+            }
+        }
     }
 }
