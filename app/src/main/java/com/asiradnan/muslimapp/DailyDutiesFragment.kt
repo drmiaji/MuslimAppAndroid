@@ -4,10 +4,8 @@ import SharedViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -26,7 +24,7 @@ import kotlin.concurrent.thread
 class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
 
     private lateinit var recyclerView: RecyclerView
-    val taskList = ArrayList<Task>()
+    val anyList = ArrayList<Any>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +36,10 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
 
 
         val calendar: Button = view.findViewById(R.id.calendarbtn)
+        val qibla: Button = view.findViewById(R.id.button5)
+        qibla.setOnClickListener {
+            startActivity(Intent(requireContext(),QiblaActivity::class.java))
+        }
         val prayertimebtn : Button = view.findViewById(R.id.prayertimebutton)
         prayertimebtn.setOnClickListener {
             val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
@@ -92,7 +94,8 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         }
     }
     private fun showTasks(jsonarray: JSONArray){
-        taskList.clear()
+        anyList.clear()
+        var last:String = "last";
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
             val task = Task(
@@ -101,11 +104,15 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                 detail = taskJson.getString("detail"),
                 type = taskJson.getString("type")
             )
-            taskList.add(task)
+            if (last != task.type) {
+                last = task.type
+                anyList.add(last)
+            }
+            anyList.add(task)
         }
-        val adapter = Adapter(taskList)
+        val adapter = DynamcAdapter(anyList)
         recyclerView.adapter = adapter
-        adapter.onItemClickListener(object : Adapter.onItemClickListener{
+         adapter.setOnItemClickListener(object : DynamcAdapter.onItemClickListener {
             override fun buttonClick(position: Int) {
                 taskDone(position, adapter)
             }
@@ -114,12 +121,13 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
             }
         })
     }
-    private fun taskDone(position:Int, adapter: Adapter){
+    private fun taskDone(position:Int, adapter: DynamcAdapter){
+        val task:Task = anyList[position] as Task
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
         Toast.makeText(requireContext(),"Wait..",Toast.LENGTH_SHORT).show()
         thread {
-            val url = URL("https://muslimapp.vercel.app/duties/done/${taskList[position].id}")
+            val url = URL("https://muslimapp.vercel.app/duties/done/${task.id}")
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization","Bearer $access")
@@ -128,12 +136,12 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
                     inputStream.bufferedReader().use {
                         val response = it.readText()
                         val responseJson = JSONObject(response)
-                        if (taskList[position].type == "fard")  curr = responseJson.optString("Current_Fard_Percent")
-                        else if (taskList[position].type == "sunnah")  curr = responseJson.optString("Current_Sunnah_Percent")
+                        if (task.type == "fard")  curr = responseJson.optString("Current_Fard_Percent")
+                        else if (task.type == "sunnah")  curr = responseJson.optString("Current_Sunnah_Percent")
                         else curr = responseJson.optString("Current_Nafl_Points")
                     }
                     activity?.runOnUiThread {
-                        updateScore(curr, taskList[position].type)
+                        updateScore(curr, task.type)
                         taskDoneSuccess(position,adapter)
                     }
                 }
@@ -159,13 +167,13 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
             nafl?.text = curr + " Points"
         }
     }
-    private fun taskDoneSuccess(position: Int, adapter: Adapter){
-        taskList.removeAt(position)
+    private fun taskDoneSuccess(position: Int, adapter: DynamcAdapter){
+        anyList.removeAt(position)
         adapter.notifyItemRemoved(position)
-        adapter.notifyItemRangeChanged(position, taskList.size)
+        adapter.notifyItemRangeChanged(position, anyList.size)
     }
     private fun sendToTaskDetail(position: Int){
-        val task = taskList[position]
+        val task = anyList[position] as Task
         val intent = Intent(requireContext(),TaskDetailActivity::class.java)
         intent.putExtra("title",task.title)
         intent.putExtra("detail",task.detail)

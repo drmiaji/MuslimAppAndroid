@@ -24,7 +24,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     private lateinit var recyclerView3: RecyclerView
     val taskList3 = ArrayList<Task>()
     val taskList = ArrayList<Task>()
-    val taskList2 = ArrayList<Task>()
+    val taskList2 = ArrayList<Any>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,6 +135,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     }
     private fun showHistoryIncompleteTask(jsonarray: JSONArray) {
         taskList2.clear()
+        var last:String = "last";
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
             val task = Task(
@@ -143,11 +144,15 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
                 detail = taskJson.getString("detail"),
                 type = taskJson.getString("type")
             )
+            if (last != task.type) {
+                last = task.type
+                taskList2.add(last)
+            }
             taskList2.add(task)
         }
-        val adapter = Adapter(taskList2)
+        val adapter = DynamcAdapter(taskList2)
         recyclerView2.adapter = adapter
-        adapter.onItemClickListener(object : Adapter.onItemClickListener{
+        adapter.setOnItemClickListener(object : DynamcAdapter.onItemClickListener{
             override fun buttonClick(position: Int) {
                 taskDone(position, adapter)
             }
@@ -156,13 +161,14 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
             }
         })
     }
-    private fun taskDone(position:Int, adapter: Adapter){
+    private fun taskDone(position:Int, adapter: DynamcAdapter){
+        val task:Task = taskList2[position] as Task
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
         val date = arguments?.getString("date")
         Toast.makeText(requireContext(),"Wait..",Toast.LENGTH_SHORT).show()
         thread {
-            val url = URL("https://muslimapp.vercel.app/duties/done_old/${taskList2[position].id}/$date")
+            val url = URL("https://muslimapp.vercel.app/duties/done_old/${task.id}/$date")
             Log.d("loggerboi", url.toString())
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
@@ -186,7 +192,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         intent.putExtra("detail",task.detail)
         startActivity(intent)
     }
-    private fun taskDoneSuccess(position: Int, adapter: Adapter){
+    private fun taskDoneSuccess(position: Int, adapter: DynamcAdapter){
         taskList2.removeAt(position)
         adapter.notifyItemRemoved(position)
         adapter.notifyItemRangeChanged(position, taskList2.size)

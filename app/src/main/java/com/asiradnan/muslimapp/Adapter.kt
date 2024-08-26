@@ -30,7 +30,6 @@ class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("loggerboi","onbindview")
         val currentItem = datalist[position]
         holder.title.text = currentItem.title
         if (currentItem.type == "sunnah") holder.title.setBackgroundColor(Color.parseColor("#3CB371"));

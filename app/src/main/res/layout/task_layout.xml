@@ -6,32 +6,27 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp">
 
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="0dp"
+        android:layout_height="35sp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="30sp"
-        android:text="Hello"
-        android:paddingLeft="7dp"
-        android:background="@color/blue"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9"/>
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintDimensionRatio="1:1"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:padding="0dp"
-        android:buttonTint="@color/black"
-        android:layout_marginRight="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Hello"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

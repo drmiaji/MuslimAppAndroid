@@ -9,6 +9,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class PrayerTimeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +30,18 @@ class PrayerTimeActivity : AppCompatActivity() {
         val sunset:TextView = findViewById(R.id.sunset_time)
         val maghrib:TextView = findViewById(R.id.maghrib_time)
         val isha:TextView = findViewById(R.id.isha_time)
+        val header:TextView = findViewById(R.id.prayertimeheader)
 
-        fajr.text = "Fajr: " + intent.getStringExtra("Fajr")
-        sunrise.text = "Sunrise: " + intent.getStringExtra("Sunrise")
-        duhr.text = "Dhuhr: " + intent.getStringExtra("Dhuhr")
-        asr.text = "Asr: " + intent.getStringExtra("Asr")
-        maghrib.text ="Maghrib: " + intent.getStringExtra("Maghrib")
-        sunset.text ="Sunset: " + intent.getStringExtra("Sunset")
-        isha.text ="Isha: " + intent.getStringExtra("Isha")
+        val  now: Calendar = Calendar.getInstance()
+        val formatteddate = SimpleDateFormat("dd MMMM").format(now.time)
+        header.text = formatteddate
 
+        fajr.text = "Fajr: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Fajr"))!!)
+        sunrise.text = "Sunrise: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Sunrise"))!!)
+        duhr.text = "Dhuhr: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Dhuhr"))!!)
+        asr.text = "Asr: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Asr"))!!)
+        maghrib.text ="Maghrib: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Maghrib"))!!)
+        sunset.text ="Sunset: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Sunset"))!!)
+        isha.text ="Isha: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Isha"))!!)
     }
 }
