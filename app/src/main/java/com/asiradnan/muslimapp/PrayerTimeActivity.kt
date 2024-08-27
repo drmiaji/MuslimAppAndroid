@@ -30,18 +30,14 @@ class PrayerTimeActivity : AppCompatActivity() {
         val sunset:TextView = findViewById(R.id.sunset_time)
         val maghrib:TextView = findViewById(R.id.maghrib_time)
         val isha:TextView = findViewById(R.id.isha_time)
-        val header:TextView = findViewById(R.id.prayertimeheader)
 
-        val  now: Calendar = Calendar.getInstance()
-        val formatteddate = SimpleDateFormat("dd MMMM").format(now.time)
-        header.text = formatteddate
 
-        fajr.text = "Fajr: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Fajr"))!!)
-        sunrise.text = "Sunrise: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Sunrise"))!!)
-        duhr.text = "Dhuhr: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Dhuhr"))!!)
-        asr.text = "Asr: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Asr"))!!)
-        maghrib.text ="Maghrib: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Maghrib"))!!)
-        sunset.text ="Sunset: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Sunset"))!!)
-        isha.text ="Isha: " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Isha"))!!)
+        fajr.text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Fajr"))!!)
+        sunrise.text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Sunrise"))!!)
+        duhr.text =SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Dhuhr"))!!)
+        asr.text =SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Asr"))!!)
+        maghrib.text =SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Maghrib"))!!)
+        sunset.text =SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Sunset"))!!)
+        isha.text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(SimpleDateFormat("HH:mm", Locale.getDefault()).parse(intent.getStringExtra("Isha"))!!)
     }
 }

@@ -64,7 +64,7 @@
         android:layout_height="0dp"
         android:background="@drawable/feedback_detailinput_border"
         android:gravity="top|start"
-        android:hint="Hey, I found this duty missing for a married male that the Prophet told us to do..."
+        android:hint="Hey, I found this duty missing that the Prophet told us to do..."
         android:inputType="textMultiLine"
         android:maxLines="10"
         android:minLines="6"

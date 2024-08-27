@@ -14,42 +14,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Hello"
+        android:text="Today's Prayer Times"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="80dp"/>
 
     <TextView
         android:id="@+id/fajr_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="28dp"
         android:text="TextView"
         android:textSize="19sp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toTopOf="@+id/sunrise_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/sunrise_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="19sp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/duhr_time"
-        app:layout_constraintStart_toStartOf="@id/fajr_time" />
-
-    <TextView
-        android:id="@+id/duhr_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginBottom="25dp"
-        android:textSize="19sp"
-        app:layout_constraintBottom_toTopOf="@+id/asr_time"
-        app:layout_constraintStart_toStartOf="@id/fajr_time" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/asr_time"
@@ -57,41 +36,130 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="19sp"
-        app:layout_constraintStart_toStartOf="@id/fajr_time"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
+        app:layout_constraintStart_toStartOf="@id/fajr_time"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.505" />
 
     <TextView
         android:id="@+id/maghrib_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="28dp"
         android:text="TextView"
         android:textSize="19sp"
         app:layout_constraintStart_toStartOf="@id/fajr_time"
-        app:layout_constraintTop_toBottomOf="@id/asr_time"/>
+        app:layout_constraintTop_toBottomOf="@id/asr_time" />
 
     <TextView
         android:id="@+id/sunset_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="28dp"
         android:text="TextView"
         android:textSize="19sp"
         app:layout_constraintStart_toStartOf="@id/fajr_time"
-        app:layout_constraintTop_toBottomOf="@id/maghrib_time"/>
+        app:layout_constraintTop_toBottomOf="@id/maghrib_time" />
 
-
+    <TextView
+        android:id="@+id/duhr_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="TextView"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/asr_time"
+        app:layout_constraintStart_toStartOf="@id/fajr_time" />
 
     <TextView
         android:id="@+id/isha_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="28dp"
         android:text="TextView"
         android:textSize="19sp"
         app:layout_constraintStart_toStartOf="@id/fajr_time"
-        app:layout_constraintTop_toBottomOf="@id/sunset_time"/>
+        app:layout_constraintTop_toBottomOf="@id/sunset_time" />
+
+    <TextView
+        android:id="@+id/sunrise_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="TextView"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/duhr_time"
+        app:layout_constraintStart_toStartOf="@id/fajr_time" />
+
+    <TextView
+        android:id="@+id/fajrtimelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fajr :"
+        app:layout_constraintTop_toTopOf="@+id/fajr_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp" />
+
+    <TextView
+        android:id="@+id/sunriselabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunrise :"
+        app:layout_constraintTop_toTopOf="@+id/sunrise_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp" />
+
+    <TextView
+        android:id="@+id/dhuhr_timelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dhuhr :"
+        app:layout_constraintTop_toTopOf="@+id/duhr_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp" />
+
+    <TextView
+        android:id="@+id/asr_timelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Asr :"
+        app:layout_constraintTop_toTopOf="@+id/asr_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maghrib :"
+        app:layout_constraintTop_toTopOf="@+id/maghrib_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp"/>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunset :"
+        app:layout_constraintTop_toTopOf="@+id/sunset_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Isha :"
+        app:layout_constraintTop_toTopOf="@+id/isha_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="19sp"
+        android:layout_marginLeft="50dp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
