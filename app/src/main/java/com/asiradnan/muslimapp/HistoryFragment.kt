@@ -17,6 +17,7 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import kotlin.concurrent.thread
 
@@ -38,6 +39,9 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     }
     private fun showDates() {
         historypointslist.clear()
+        val  now: Calendar = Calendar.getInstance()
+        val formatteddate = SimpleDateFormat("yyyy-MM-dd").format(now.time)
+        Log.d("loggerboi",formatteddate)
         for (i in 0 until jsonarray.length()){
             val json = jsonarray.getJSONObject(i)
             val historypoint = HistoryPoints(
@@ -46,9 +50,8 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                 sunnah = json.getDouble("sunnah_percent"),
                 nafl = json.getInt("nafl_points")
             )
-            historypointslist.add(historypoint)
+            if (historypoint.date != formatteddate) historypointslist.add(historypoint)
         }
-        historypointslist.reverse()
         val adapter = DateAdapter(historypointslist)
         recyclerView.adapter = adapter
         adapter.onItemClickListener(object : DateAdapter.onItemClickListener {

@@ -6,7 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".HistoryDetailFragment">
 
-     <TextView
+    <Button
+        android:id="@+id/latecompletedhistorytoggle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Late Completed"
+        android:padding="5dp"
+        app:layout_constraintWidth_percent="0.29"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/historydetailheader"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/ontimehistorytoggle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="On Time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.29"
+        app:layout_constraintTop_toBottomOf="@id/historydetailheader"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
         android:id="@+id/historydetailheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,14 +50,13 @@
         app:layout_constraintBottom_toTopOf="@id/historyIncompleteRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/historydetailheader"/>
+        app:layout_constraintTop_toBottomOf="@+id/ontimehistorytoggle"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyIncompleteRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/completedTaskheader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incompletedTaskheader" />
@@ -45,19 +66,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Completed Tasks"
+        android:text="Completed On Time"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/historyIncompleteRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/ontimehistorytoggle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/completedLateTaskheader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/completedTaskheader" />
@@ -72,15 +92,25 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/historyRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/ontimehistorytoggle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyLateRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/completedLateTaskheader" />
+
+    <Button
+        android:id="@+id/incompletehistorytoggle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Incomplete"
+        android:padding="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/historydetailheader"
+        app:layout_constraintWidth_percent="0.295"
+        android:layout_marginTop="5dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
