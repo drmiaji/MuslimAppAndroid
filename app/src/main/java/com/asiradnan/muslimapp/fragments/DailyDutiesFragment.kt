@@ -271,6 +271,7 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
     private fun sendToTaskDetail(position: Int){
         val task = anyList[position] as Task
         val intent = Intent(requireContext(), TaskDetailActivity::class.java)
+        intent.putExtra("id",task.id.toString())
         intent.putExtra("title",task.title)
         intent.putExtra("detail",task.detail)
         startActivity(intent)

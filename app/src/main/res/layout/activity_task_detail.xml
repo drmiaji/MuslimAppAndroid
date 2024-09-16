@@ -20,14 +20,28 @@
 
     <TextView
         android:id="@+id/task_detail_detail"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="20sp"
-        android:textAlignment="center"
+        android:textSize="17sp"
+        android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.236" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.236"
+        app:layout_constraintWidth_percent="0.9"/>
+    <TextView
+        android:id="@+id/ref"
+        android:layout_width="0dp"
+        android:text="References:"
+        android:textSize="17sp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintTop_toBottomOf="@id/task_detail_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
