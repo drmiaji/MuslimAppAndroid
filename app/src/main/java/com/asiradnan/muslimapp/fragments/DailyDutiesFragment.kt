@@ -1,8 +1,9 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.fragments
 
 import SharedViewModel
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -22,6 +23,14 @@ import java.util.Calendar
 import kotlin.concurrent.thread
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.asiradnan.muslimapp.activities.QiblaActivity
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.dataclasses.Task
+import com.asiradnan.muslimapp.activities.LoginActivity
+import com.asiradnan.muslimapp.activities.PrayerTimeActivity
+import com.asiradnan.muslimapp.activities.TaskDetailActivity
+import com.asiradnan.muslimapp.adapters.DynamcAdapter
+import com.asiradnan.muslimapp.adapters.DynamicAdapter2
 
 
 class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
@@ -41,13 +50,13 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
 
         val qibla: Button = view.findViewById(R.id.button5)
         qibla.setOnClickListener {
-            startActivity(Intent(requireContext(),QiblaActivity::class.java))
+            startActivity(Intent(requireContext(), QiblaActivity::class.java))
         }
         val prayertimebtn : Button = view.findViewById(R.id.prayertimebutton)
         prayertimebtn.setOnClickListener {
             val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
             model.prayertimes.observe(viewLifecycleOwner) { jsonObject ->
-                val intent = Intent(requireContext(),PrayerTimeActivity::class.java)
+                val intent = Intent(requireContext(), PrayerTimeActivity::class.java)
                 intent.putExtra("Fajr", jsonObject.optString("Fajr"))
                 intent.putExtra("Sunrise", jsonObject.optString("Sunrise"))
                 intent.putExtra("Dhuhr", jsonObject.optString("Dhuhr"))
@@ -59,26 +68,24 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
             }
         }
 
-        val swicth1:Button = view.findViewById(R.id.swicth1)
-        val swicth2:Button = view.findViewById(R.id.switch2)
-        val header1:TextView = view.findViewById(R.id.dutiesheader)
-        val header2:TextView = view.findViewById(R.id.dutiesheader2)
+        val swicth1:TextView = view.findViewById(R.id.swicth1)
+        val swicth2:TextView = view.findViewById(R.id.switch2)
         recyclerView = view.findViewById(R.id.recycleview)
         recyclerView2 = view.findViewById(R.id.recycleview2)
-        header1.visibility = View.VISIBLE
-            recyclerView.visibility = View.VISIBLE
-            header2.visibility = View.GONE
-            recyclerView2.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+        recyclerView2.visibility = View.GONE
+        swicth1.setTypeface(swicth1.getTypeface(), Typeface.BOLD)
+        swicth2.setTypeface(swicth2.getTypeface(), Typeface.NORMAL)
         swicth2.setOnClickListener {
-            header1.visibility = View.GONE
+            swicth2.setTypeface(swicth2.getTypeface(), Typeface.BOLD)
+            swicth1.setTypeface(null, Typeface.NORMAL)
             recyclerView.visibility = View.GONE
-            header2.visibility = View.VISIBLE
             recyclerView2.visibility = View.VISIBLE
         }
         swicth1.setOnClickListener {
-            header1.visibility = View.VISIBLE
+            swicth1.setTypeface(swicth1.getTypeface(), Typeface.BOLD)
+            swicth2.setTypeface(null, Typeface.NORMAL)
             recyclerView.visibility = View.VISIBLE
-            header2.visibility = View.GONE
             recyclerView2.visibility = View.GONE
         }
     }
@@ -88,20 +95,21 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         super.onStart()
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
-        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
+        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(), LoginActivity::class.java))
         else{
             recyclerView = view?.findViewById(R.id.recycleview) ?: return
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             recyclerView2 = view?.findViewById(R.id.recycleview2) ?: return
             recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-            fetchMyTask()
+            fetchMyTask(true)
         }
     }
-    private fun fetchMyTask(){
+    private fun fetchMyTask(show:Boolean = false){
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
+        if (show) Toast.makeText(requireContext(),"Loading Duties",Toast.LENGTH_SHORT).show()
         thread{
-                val url = URL("https://muslimapp.vercel.app/duties/mytask")
+                val url = URL("https://muslim.asiradnan.com/duties/mytask")
                 with(url.openConnection() as HttpURLConnection){
                     requestMethod = "GET"
                     setRequestProperty("Authorization","Bearer $access")
@@ -168,7 +176,7 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         recyclerView2.adapter = adapter2
         adapter.setOnItemClickListener(object : DynamcAdapter.onItemClickListener {
             override fun buttonClick(position: Int) {
-                taskDone(position, adapter, adapter2)
+                taskDone(position)
             }
             override fun holderClick(position: Int) {
                 sendToTaskDetail(position)
@@ -176,120 +184,74 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         })
          adapter2.setOnItemClickListener(object : DynamicAdapter2.onItemClickListener {
             override fun buttonClick(position: Int) {
-                taskUndo(position, adapter2, adapter)
+                taskUndo(position)
             }
             override fun holderClick(position: Int) {
                 sendToTaskDetail(position)
             }
         })
     }
-    private fun taskDone(position:Int, adapter: DynamcAdapter, adapter2: DynamicAdapter2){
-        val task:Task = anyList[position] as Task
+    private fun taskDone(position:Int){
+        val task: Task = anyList[position] as Task
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
-        if (isInternetAvailable(requireContext())){
-            val temp = ArrayList<Task>()
-            for (i in anyList2) {
-                if (i is Task) temp.add(i)
-            }
-            temp.add(task)
-            temp.sortBy { it.priority }
-            anyList2.clear()
-            var last = "last";
-            for (i in temp) {
-                if (last != i.type) {
-                    last = i.type
-                    anyList2.add(last)
-                }
-                anyList2.add(i)
-            }
-            adapter2.notifyItemRemoved(position)
-            adapter2.notifyItemRangeChanged(position, anyList2.size)
-            anyList.removeAt(position)
-            adapter.notifyItemRemoved(position)
-            adapter.notifyItemRangeChanged(position, anyList.size)
-
-            thread {
-                val url = URL("https://muslimapp.vercel.app/duties/done/${task.id}")
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "GET"
-                    setRequestProperty("Authorization","Bearer $access")
-                    if (responseCode == 200) {
-                        var curr:String
-                        inputStream.bufferedReader().use {
-                            val response = it.readText()
-                            val responseJson = JSONObject(response)
-                            if (task.type == "fard")  curr = responseJson.optString("Current_Fard_Percent")
-                            else if (task.type == "sunnah")  curr = responseJson.optString("Current_Sunnah_Percent")
-                            else curr = responseJson.optString("Current_Nafl_Points")
-                        }
-                        activity?.runOnUiThread {
-                            updateScore(curr, task.type)
-                            fetchMyTask()
-                        }
+        thread {
+            val url = URL("https://muslim.asiradnan.com/duties/done/${task.id}")
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+                setRequestProperty("Authorization", "Bearer $access")
+                if (responseCode == 200) {
+                    var curr: String
+                    inputStream.bufferedReader().use {
+                        val response = it.readText()
+                        val responseJson = JSONObject(response)
+                        if (task.type == "fard") curr =
+                            responseJson.optString("Current_Fard_Percent")
+                        else if (task.type == "sunnah") curr =
+                            responseJson.optString("Current_Sunnah_Percent")
+                        else curr = responseJson.optString("Current_Nafl_Points")
                     }
-                    else
-                        activity?.runOnUiThread {
-                        Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
+                    activity?.runOnUiThread {
+                        updateScore(curr, task.type)
+                        fetchMyTask()
                     }
-                }
+                } else
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
-        else Toast.makeText(requireContext(),"No Internet",Toast.LENGTH_SHORT).show()
-
     }
-    private fun taskUndo(position:Int, adapter2: DynamicAdapter2, adapter: DynamcAdapter){
-        val task:Task = anyList2[position] as Task
+    private fun taskUndo(position:Int){
+        val task: Task = anyList2[position] as Task
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
-       if (isInternetAvailable(requireContext())){
-            val temp = ArrayList<Task>()
-            for (i in anyList) {
-                if (i is Task) temp.add(i)
-            }
-            temp.add(task)
-            temp.sortBy { it.priority }
-            anyList.clear()
-            var last = "last";
-            for (i in temp) {
-                if (last != i.type) {
-                    last = i.type
-                    anyList.add(last)
-                }
-                anyList.add(i)
-            }
-            adapter.notifyItemRemoved(position)
-            adapter.notifyItemRangeChanged(position, anyList.size)
-            anyList2.removeAt(position)
-            adapter2.notifyItemRemoved(position)
-            adapter2.notifyItemRangeChanged(position, anyList.size)
-            thread {
-                val url = URL("https://muslimapp.vercel.app/duties/undo/${task.id}")
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "GET"
-                    setRequestProperty("Authorization","Bearer $access")
-                    if (responseCode == 200) {
-                        var curr:String
-                        inputStream.bufferedReader().use {
-                            val response = it.readText()
-                            val responseJson = JSONObject(response)
-                            if (task.type == "fard")  curr = responseJson.optString("Current_Fard_Percent")
-                            else if (task.type == "sunnah")  curr = responseJson.optString("Current_Sunnah_Percent")
-                            else curr = responseJson.optString("Current_Nafl_Points")
-                        }
-                        activity?.runOnUiThread {
-                            updateScore(curr, task.type)
-                            fetchMyTask()
-                        }
+        thread {
+            val url = URL("https://muslim.asiradnan.com/duties/undo/${task.id}")
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+                setRequestProperty("Authorization", "Bearer $access")
+                if (responseCode == 200) {
+                    var curr: String
+                    inputStream.bufferedReader().use {
+                        val response = it.readText()
+                        val responseJson = JSONObject(response)
+                        if (task.type == "fard") curr =
+                            responseJson.optString("Current_Fard_Percent")
+                        else if (task.type == "sunnah") curr =
+                            responseJson.optString("Current_Sunnah_Percent")
+                        else curr = responseJson.optString("Current_Nafl_Points")
                     }
-                    else
-                        activity?.runOnUiThread {
-                        Toast.makeText(requireContext(),"Failed",Toast.LENGTH_SHORT).show()
+                    activity?.runOnUiThread {
+                        updateScore(curr, task.type)
+                        fetchMyTask()
                     }
-                }
+                } else
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
-        else Toast.makeText(requireContext(),"No Internet",Toast.LENGTH_SHORT).show()
     }
     private fun updateScore(curr:String, type:String){
         val tochange: CircularProgressIndicator?;
@@ -303,25 +265,14 @@ class DailyDutiesFragment : Fragment(R.layout.fragment_daily_duties) {
         }
         else {
             val nafl: TextView? = view?.findViewById(R.id.nafl_points_dd)
-            nafl?.text = curr + " Points"
+            nafl?.text = curr + " Nafl Points"
         }
     }
     private fun sendToTaskDetail(position: Int){
         val task = anyList[position] as Task
-        val intent = Intent(requireContext(),TaskDetailActivity::class.java)
+        val intent = Intent(requireContext(), TaskDetailActivity::class.java)
         intent.putExtra("title",task.title)
         intent.putExtra("detail",task.detail)
         startActivity(intent)
-    }
-    fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return when {
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
     }
 }

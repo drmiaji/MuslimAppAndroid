@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".FeedBackFragment">
+    tools:context=".fragments.FeedBackFragment">
 
     <TextView
         android:id="@+id/textView2"
@@ -42,7 +42,6 @@
         android:layout_marginBottom="20dp"
         android:hint="Verse/Hadith Number"
         android:textSize="15sp"
-        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/headerforfeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,13 +1,10 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
 import SharedViewModel
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +12,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.asiradnan.muslimapp.fragments.HistoryDetailFragment
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.ViewPagerAdapter
+import com.asiradnan.muslimapp.updated
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import org.json.JSONObject
@@ -112,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedPreferences.getString("accesstoken", null)
         thread {
-            val url = URL("https://muslimapp.vercel.app/muslims/loggedin")
+            val url = URL("https://muslim.asiradnan.com/muslims/loggedin")
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization", "Bearer $access")
@@ -132,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedPreferences.getString("accesstoken", null)
         thread {
-                val url = URL("https://muslimapp.vercel.app/duties/get_history")
+                val url = URL("https://muslim.asiradnan.com/duties/get_history")
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "GET"
                     setRequestProperty("Authorization", "Bearer $access")

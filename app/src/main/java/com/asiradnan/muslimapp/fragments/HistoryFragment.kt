@@ -1,8 +1,6 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.fragments
 
 import SharedViewModel
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.asiradnan.muslimapp.dataclasses.HistoryPoints
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.activities.MainActivity
+import com.asiradnan.muslimapp.adapters.DateAdapter
 import org.json.JSONArray
-import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import kotlin.concurrent.thread
 
 
 class HistoryFragment : Fragment(R.layout.fragment_history) {
@@ -51,6 +48,10 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                 nafl = json.getInt("nafl_points")
             )
             if (historypoint.date != formatteddate) historypointslist.add(historypoint)
+        }
+        if (historypointslist.size != 0) {
+            val nohistorytext:TextView? = view?.findViewById(R.id.nohistorytext)
+            nohistorytext?.visibility = View.GONE
         }
         val adapter = DateAdapter(historypointslist)
         recyclerView.adapter = adapter

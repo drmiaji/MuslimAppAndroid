@@ -45,7 +45,8 @@
                 app:indicatorSize="40dp"
                 app:layout_constraintEnd_toStartOf="@+id/history_sunnah"
                 app:layout_constraintTop_toTopOf="parent"
-                app:trackColor="@color/track_color"/>
+                app:trackColor="@color/track_color"
+                app:indicatorColor="@color/GREEN"/>
             <TextView
                 android:id="@+id/history_fard_inside"
                 android:layout_width="35dp"
@@ -73,7 +74,8 @@
                 app:indicatorSize="40dp"
                 app:layout_constraintEnd_toStartOf="@id/history_nafl"
                 app:layout_constraintTop_toTopOf="parent"
-                app:trackColor="@color/track_color"/>
+                app:trackColor="@color/track_color"
+                app:indicatorColor="@color/GREEN"/>
 
             <TextView
                 android:id="@+id/history_sunnah_inside"

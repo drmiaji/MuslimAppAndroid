@@ -1,16 +1,13 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
-import SharedViewModel
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
+import com.asiradnan.muslimapp.R
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
 class PrayerTimeActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
 import android.content.Context
 import android.hardware.Sensor
@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
+import com.asiradnan.muslimapp.R
 
 class QiblaActivity : AppCompatActivity(), SensorEventListener {
 

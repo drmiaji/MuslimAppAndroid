@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.dataclasses.Task
 
 class DynamcAdapter(private var datalist: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

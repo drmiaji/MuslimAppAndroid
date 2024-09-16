@@ -1,13 +1,14 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.adapters
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.dataclasses.Task
 
 class Adapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<Adapter.ViewHolder>(){
 

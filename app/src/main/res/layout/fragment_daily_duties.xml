@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DailyDutiesFragment">
+    tools:context=".fragments.DailyDutiesFragment">
 
 
     <TextView
@@ -31,12 +31,14 @@
         android:indeterminateBehavior="cycle"
         android:max="100"
         android:layout_marginTop="5dp"
-        android:progress="50"
+        android:progress="0"
         android:rotation="180"
         app:indicatorSize="76dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:trackColor="@color/track_color" />
+        app:trackColor="@color/track_color"
+        app:indicatorColor="@color/GREEN"
+        app:trackThickness="10dp"/>
 
     <TextView
         android:id="@+id/percenttext"
@@ -65,7 +67,9 @@
         app:indicatorSize="76dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:trackColor="@color/track_color" />
+        app:trackColor="@color/track_color"
+        app:indicatorColor="@color/GREEN"
+        app:trackThickness="10dp"/>
 
     <TextView
         android:id="@+id/sunnahpercenttext"
@@ -88,10 +92,10 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:layout_marginTop="22dp"
-        android:text="Qibla"
+        android:text="Qibla (Prayer Direction)"
         android:textSize="13sp"
-        app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintEnd_toEndOf="@id/percent"
+        app:layout_constraintWidth_percent="0.49"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nafl_points_dd" />
 
 
@@ -101,51 +105,32 @@
         android:layout_height="wrap_content"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:text="Prayer Time"
+        android:text="Today's Prayer Times"
         android:textSize="13sp"
-        app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintStart_toStartOf="@id/sunnahpercent"
+        app:layout_constraintWidth_percent="0.48"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button5" />
 
-
-     <TextView
-        android:id="@+id/dutiesheader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Today's Duties"
-        android:textSize="21sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/swicth1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dutiesheader"
+        app:layout_constraintTop_toBottomOf="@+id/switch2"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-     <TextView
-        android:id="@+id/dutiesheader2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Today's Completed Duties"
-        android:textSize="21sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/swicth1" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleview2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dutiesheader2"/>
+        app:layout_constraintTop_toBottomOf="@+id/swicth1"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/nafl_points_dd"
@@ -153,25 +138,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textSize="17sp"
-        android:text="0 Points"
+        android:text="0 Nafl Points"
         app:layout_constraintEnd_toStartOf="@+id/percent"
         app:layout_constraintStart_toEndOf="@+id/sunnahpercent"
         app:layout_constraintTop_toBottomOf="@+id/datedisplay" />
 
-    <Button
+    <TextView
         android:id="@+id/swicth1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Today's Tasks"
+        android:layout_marginTop="15dp"
+        android:text="Today's Duties"
+        android:textSize="21sp"
+        android:textAlignment="center"
         app:layout_constraintWidth_percent="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/prayertimebutton"/>
 
-    <Button
+    <TextView
         android:id="@+id/switch2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Completed Tasks"
+        android:text="Completed Duties"
+        android:textSize="21sp"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
         app:layout_constraintWidth_percent="0.495"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/prayertimebutton"/>

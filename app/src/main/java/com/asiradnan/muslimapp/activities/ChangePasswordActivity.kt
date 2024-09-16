@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.asiradnan.muslimapp.R
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -35,7 +36,7 @@ class ChangePasswordActivity : AppCompatActivity() {
             if (access.isNullOrEmpty()) startActivity(Intent(this, LoginActivity::class.java))
             else {
                 thread {
-                    val url = URL("https://muslimapp.vercel.app/muslims/changepassword")
+                    val url = URL("https://muslimapp.asiradnan.com/muslims/changepassword")
                     val jsonObject = JSONObject()
                     jsonObject.put("password", password)
                     val postData = jsonObject.toString()

@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.dataclasses
 
 data class HistoryTask(
     var title:String,

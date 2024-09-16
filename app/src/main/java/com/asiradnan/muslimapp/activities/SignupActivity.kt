@@ -1,8 +1,7 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
@@ -12,7 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.asiradnan.muslimapp.R
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -67,7 +66,7 @@ class SignupActivity : AppCompatActivity() {
                 else data.put("is_married", "False")
                 Toast.makeText(this,"Please wait!",Toast.LENGTH_SHORT).show()
                 thread {
-                    val url = URL("https://muslimapp.vercel.app/muslims/register")
+                    val url = URL("https://muslim.asiradnan.com/muslims/register")
                     val postData = data.toString()
                     with(url.openConnection() as HttpURLConnection) {
                         requestMethod = "POST"
@@ -100,6 +99,6 @@ class SignupActivity : AppCompatActivity() {
         }
     }
     private fun sendToLogIn(){
-        startActivity(Intent(this,LoginActivity::class.java))
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 }

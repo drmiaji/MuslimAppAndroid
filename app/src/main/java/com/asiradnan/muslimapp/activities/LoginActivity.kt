@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
 import android.content.Context
 import android.content.Intent
@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.asiradnan.muslimapp.R
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 import java.io.OutputStreamWriter
@@ -35,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
         val passwordInput: EditText = findViewById(R.id.passwordinput)
         val signupbutton:Button = findViewById(R.id.signupbutton)
         signupbutton.setOnClickListener{
-            startActivity(Intent(this,SignupActivity::class.java))
+            startActivity(Intent(this, SignupActivity::class.java))
         }
         button.setOnClickListener {
             Toast.makeText(this, "Please wait",Toast.LENGTH_SHORT).show()
@@ -43,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 val username = usernameInput.text?.toString() ?: ""
                 val password = passwordInput.text?.toString() ?: ""
                 thread {
-                    val url = URL("https://muslimapp.vercel.app/muslims/login")
+                    val url = URL("https://muslim.asiradnan.com/muslims/login")
                     val jsonObject = JSONObject()
                     jsonObject.put("username", username)
                     jsonObject.put("password", password)

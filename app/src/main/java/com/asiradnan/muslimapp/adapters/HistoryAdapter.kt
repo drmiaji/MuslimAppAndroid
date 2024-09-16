@@ -1,10 +1,12 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.dataclasses.Task
 
 class HistoryAdapter (private var datalist:ArrayList<Task>):RecyclerView.Adapter<HistoryAdapter.ViewHolder>(){
 

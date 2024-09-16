@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MuslimApp</string>
+    <string name="app_name">My Islam</string>
     <string name="usernamelabel">Username</string>
     <string name="passwordlabel">Password</string>
     <string name="homemenutitle">Home</string>

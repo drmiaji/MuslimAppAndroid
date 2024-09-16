@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.fragments
 
 import android.content.Context
 import android.content.Intent
@@ -7,16 +7,20 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.dataclasses.Task
+import com.asiradnan.muslimapp.activities.LoginActivity
+import com.asiradnan.muslimapp.activities.TaskDetailActivity
+import com.asiradnan.muslimapp.adapters.DynamcAdapter
+import com.asiradnan.muslimapp.adapters.DynamicAdapter2
+import com.asiradnan.muslimapp.adapters.HistoryAdapter
 import org.json.JSONArray
-import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -36,15 +40,15 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         val date = arguments?.getString("date")
         val sharedPreferences = requireContext().getSharedPreferences("authorization",Context.MODE_PRIVATE)
         val access = sharedPreferences.getString("accesstoken",null)
-        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(),LoginActivity::class.java))
+        if (access.isNullOrEmpty()) startActivity(Intent(requireContext(), LoginActivity::class.java))
         else if (date.isNullOrEmpty()) Toast.makeText(requireContext(),"No Date Found",Toast.LENGTH_LONG).show()
-        else{
-            val swicth1:Button = view.findViewById(R.id.ontimehistorytoggle)
+        else {
+            val swicth1: Button = view.findViewById(R.id.ontimehistorytoggle)
             val swicth2: Button = view.findViewById(R.id.latecompletedhistorytoggle)
             val swicth3: Button = view.findViewById(R.id.incompletehistorytoggle)
-            val header1:TextView = view.findViewById(R.id.completedLateTaskheader)
-            val header2:TextView = view.findViewById(R.id.completedTaskheader)
-            val header3:TextView = view.findViewById(R.id.incompletedTaskheader)
+            val header1: TextView = view.findViewById(R.id.completedLateTaskheader)
+            val header2: TextView = view.findViewById(R.id.completedTaskheader)
+            val header3: TextView = view.findViewById(R.id.incompletedTaskheader)
             recyclerView2 = view.findViewById(R.id.historyIncompleteRecyclerView)
             recyclerView2.layoutManager = LinearLayoutManager(requireContext())
             recyclerView = view.findViewById(R.id.historyRecyclerView)
@@ -82,17 +86,15 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
                 header3.visibility = View.GONE
                 recyclerView3.visibility = View.GONE
             }
-            val header:TextView = view.findViewById(R.id.historydetailheader)
+            val header: TextView = view.findViewById(R.id.historydetailheader)
             header.text = date
-            fetchIncomplete(access,date)
-
-
-
+            Toast.makeText(requireContext(), "Loading..", Toast.LENGTH_SHORT).show()
+            fetchIncomplete(access, date)
         }
     }
     private fun fetchIncomplete(access: String, date: String) {
         thread {
-            val url = URL("https://muslimapp.vercel.app/duties/history_detail_incomplete/$date")
+            val url = URL("https://muslim.asiradnan.com/duties/history_detail_incomplete/$date")
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization", "Bearer $access")
@@ -112,7 +114,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     }
     private fun fetchComplete(access:String,date:String){
         thread {
-            val url = URL("https://muslimapp.vercel.app/duties/history_detail/$date")
+            val url = URL("https://muslim.asiradnan.com/duties/history_detail/$date")
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization", "Bearer $access")
@@ -133,7 +135,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         val access = sharedpref.getString("accesstoken",null)
         val date = arguments?.getString("date")
         thread {
-            val url = URL("https://muslimapp.vercel.app/duties/history_detail_late/$date")
+            val url = URL("https://muslim.asiradnan.com/duties/history_detail_late/$date")
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
                 setRequestProperty("Authorization", "Bearer $access")
@@ -150,7 +152,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     }
     private fun showLateHistoryTask(jsonarray : JSONArray){
         taskList3.clear()
-        var last:String = "last";
+        var last = "last";
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
             val id = taskJson.getInt("task__id")
@@ -196,7 +198,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     }
     private fun showHistoryIncompleteTask(jsonarray: JSONArray) {
         taskList2.clear()
-        var last:String = "last";
+        var last = "last";
         for (i in 0 until jsonarray.length()) {
             val taskJson = jsonarray.getJSONObject(i)
             val task = Task(
@@ -224,7 +226,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
         })
     }
     private fun taskDone(position:Int, adapter: DynamcAdapter){
-        val task:Task = taskList2[position] as Task
+        val task: Task = taskList2[position] as Task
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
         val date = arguments?.getString("date")
@@ -249,7 +251,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
             incompleteadapter.notifyItemRemoved(position)
             incompleteadapter.notifyItemRangeChanged(position, taskList2.size)
             thread {
-            val url = URL("https://muslimapp.vercel.app/duties/done_old/${task.id}/$date")
+            val url = URL("https://muslim.asiradnan.com/duties/done_old/${task.id}/$date")
             Log.d("loggerboi", url.toString())
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
@@ -274,7 +276,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
 
     }
     private fun taskUndo(position:Int){
-        val task:Task = taskList3[position] as Task
+        val task: Task = taskList3[position] as Task
         val sharedpref = requireContext().getSharedPreferences("authorization", Context.MODE_PRIVATE)
         val access = sharedpref.getString("accesstoken",null)
         val date = arguments?.getString("date")
@@ -299,7 +301,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
             lateadapter.notifyItemRemoved(position)
             lateadapter.notifyItemRangeChanged(position, taskList2.size)
             thread {
-            val url = URL("https://muslimapp.vercel.app/duties/undo_old/${task.id}/$date")
+            val url = URL("https://muslim.asiradnan.com/duties/undo_old/${task.id}/$date")
             Log.d("loggerboi", url.toString())
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "GET"
@@ -325,7 +327,7 @@ class HistoryDetailFragment : Fragment(R.layout.fragment_history_detail) {
     }
     private fun sendToTaskDetail(position: Int){
         val task = taskList[position]
-        val intent = Intent(requireContext(),TaskDetailActivity::class.java)
+        val intent = Intent(requireContext(), TaskDetailActivity::class.java)
         intent.putExtra("title",task.title)
         intent.putExtra("detail",task.detail)
         startActivity(intent)

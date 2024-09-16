@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
 import android.os.Bundle
 import android.widget.TextView
@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.asiradnan.muslimapp.R
 
 class TaskDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

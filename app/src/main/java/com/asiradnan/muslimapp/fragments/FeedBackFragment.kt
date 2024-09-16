@@ -1,4 +1,4 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.asiradnan.muslimapp.R
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -29,7 +30,7 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
                 val bookinput: TextView = view.findViewById(R.id.bookinput)
                 Log.d("loggerboi", "before thread")
                 thread {
-                    val url = URL("https://muslimapp.vercel.app/duties/feedback")
+                    val url = URL("https://muslim.asiradnan.com/duties/feedback")
                     val jsonObject = JSONObject()
                     jsonObject.put("detail", detailinput.text)
                     jsonObject.put("book", bookinput.text)

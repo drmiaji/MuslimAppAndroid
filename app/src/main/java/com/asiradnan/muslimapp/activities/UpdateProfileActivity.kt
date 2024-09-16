@@ -1,21 +1,17 @@
-package com.asiradnan.muslimapp
+package com.asiradnan.muslimapp.activities
 
-import SharedViewModel
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
+import com.asiradnan.muslimapp.R
+import com.asiradnan.muslimapp.updated
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
@@ -66,7 +62,7 @@ class UpdateProfileActivity : AppCompatActivity() {
             }
             Toast.makeText(this,"Updating Profile...",Toast.LENGTH_SHORT).show()
             thread {
-                val url = URL("https://muslimapp.vercel.app/muslims/updateprofile")
+                val url = URL("https://muslim.asiradnan.com/muslims/updateprofile")
                 val postData = data.toString()
                 with(url.openConnection() as HttpURLConnection) {
                     requestMethod = "POST"
