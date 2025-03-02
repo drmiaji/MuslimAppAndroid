@@ -60,8 +60,8 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 
 ## 📧 Contact
 For any inquiries or suggestions, feel free to reach out:
-- 📩 Email: [your-email@example.com](mailto:hello@asiradnan.com)
-- 🏠 GitHub: [yourusername](https://github.com/asiradnan)
+- 📩 Email: [hello@asiradnan.com](mailto:hello@asiradnan.com)
+- 🏠 GitHub: [asiradnan](https://github.com/asiradnan)
 
 ---
 Stay consistent with your spiritual journey with **Muslim App**! 🌟
