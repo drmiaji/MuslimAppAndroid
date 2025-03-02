@@ -2,6 +2,7 @@ package com.asiradnan.muslimapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
@@ -82,6 +83,9 @@ class SignupActivity : AppCompatActivity() {
                             close()
                         }
                         val responseCode = responseCode
+                        runOnUiThread {
+                                Log.d("loggerboi", responseCode.toString())
+                            }
                         if (responseCode == 200) {
                             runOnUiThread {
                                 sendToLogIn()
